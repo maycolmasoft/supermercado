@@ -79,10 +79,8 @@ $controladores=$_SESSION['controladores'];
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    
                   <li style="<?php echo getcontrolador("Productos",$controladores) ?>"><a href="index.php?controller=Productos&action=index"><i class="fa fa-circle-o"></i> Productos</a></li>
-              
-              
+                  <li style="<?php echo getcontrolador("LineaProductos",$controladores) ?>"><a href="index.php?controller=LineaProductos&action=index"><i class="fa fa-circle-o"></i> Línea Productos</a></li>
                   </ul>
                 </li>
              
