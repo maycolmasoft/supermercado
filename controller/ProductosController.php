@@ -4,7 +4,7 @@ class ProductosController extends ControladorBase{
     public function __construct() {
         parent::__construct();
     }
-    
+    //MAYCOL
    public function index(){
 	    
 	    session_start();
