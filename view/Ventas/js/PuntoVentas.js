@@ -10,6 +10,54 @@ $(document).ready( function (){
    $(".cantidades").inputmask();
 });
 
+$("#btn-buscar-cliente").on('click', function(){
+
+	$.ajax({
+		url:"index.php?controller=PuntoVentas&action=jsonget_cliente",
+		dataType:'json',
+		type:"POST",
+		data:{ 'cedula': $("#txt-cliente-busqueda").val() }
+	}).done( function(x){
+
+		if( x.estatus != undefined && x.estatus == 'OK' ){
+			$("#dv-datos-cliente").html('');			
+			let data	= x.data[0];
+			$("#hdn_id_cliente").val( data.id_clientes);
+			let tagcliente = $('<ul>');
+			tagcliente.append( '<li>'+data.nombre_tipo_identificacion+'</li>' );	
+			tagcliente.append( '<li>'+data.identificacion_clientes+'</li>' );	
+			tagcliente.append( '<li>'+data.razon_social_clientes+'</li>' );	
+			tagcliente.append( '<li>'+data.direccion_clientes+'</li>' );
+			tagcliente.append( '<li>'+data.celular_clientes+'</li>' );
+			tagcliente.append( '<li>'+data.correo_clientes+'</li>' );	
+
+			$("#dv-datos-cliente").html(tagcliente);
+		}else{
+			swal({
+				title: "MENSAJE",
+				text: "cliente no registrado",
+				icon: "warning",        
+			  })
+		} 
+
+		/*select  
+	aa.id_clientes
+	, aa.razon_social_clientes
+	, aa.identificacion_clientes
+	, aa.direccion_clientes
+	, aa.celular_clientes
+	, aa.correo_clientes
+	, bb.nombre_tipo_identificacion
+from clientes aa
+inner join tipo_identificacion bb on bb.id_tipo_identificacion = aa.id_tipo_identificacion
+where 1 = 1
+and aa.identificacion_clientes = '1750402859'*/
+
+	}).fail( function(xhr,error,status){
+		console.log( xhr.responseText );
+	})
+});
+
 
 
 

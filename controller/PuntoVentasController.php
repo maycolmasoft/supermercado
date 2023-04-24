@@ -669,6 +669,37 @@ class PuntoVentasController extends ControladorBase{
 			
 	}
 	
+
+	public function jsonget_cliente(){
+
+		$db = new ModulosModel();
+		$cedula = isset($_POST['cedula'])?$_POST['cedula']:""; 
+		$respuesta	= [];
+		$where	= ( empty($cedula) ) ? "" : " and aa.identificacion_clientes = '$cedula' ";
+		$qCliente	= " select  
+		aa.id_clientes
+		, aa.razon_social_clientes
+		, aa.identificacion_clientes
+		, aa.direccion_clientes
+		, aa.celular_clientes
+		, aa.correo_clientes
+		, bb.nombre_tipo_identificacion
+	from clientes aa
+	inner join tipo_identificacion bb on bb.id_tipo_identificacion = aa.id_tipo_identificacion
+	where 1 = 1
+	$where ";
+		$rsCliente	= $db->enviaquery( $qCliente );
+		if( empty( $rsCliente ) ){
+			$respuesta['estatus'] = 'ERROR';
+			$respuesta['mensaje'] = 'cliente no registrado';
+		}else{
+			$respuesta['estatus'] = 'OK';
+			$respuesta['data'] = $rsCliente;
+		}
+
+		echo json_encode( $respuesta );
+
+	}
 	
 	
 }

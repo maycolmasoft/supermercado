@@ -87,6 +87,29 @@
         </div>
         
         <div class="box-body">
+
+        <div class="row">
+          <div class="col-md-6">
+          <div class="input-group">
+    <input type="text" class="form-control" placeholder="Buscar" id="txt-cliente-busqueda">
+    <input type="hidden" id="hdn_id_cliente" value="0">
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="button" id="btn-buscar-cliente">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+  </div>
+    <br>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div id="dv-datos-cliente">
+
+            </div>            
+          </div>
+        </div>
         	
 			 <div class="col-lg-12 col-xs-12 col-md-12">
 			 
@@ -230,7 +253,7 @@
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
     <script src="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/js/fileinput.min.js"></script> 
 	<script src="view/bootstrap/otros/inputmask_bundle/jquery.inputmask.bundle.js"></script>
-	<script src="view/Ventas/js/PuntoVentas.js?0.01"></script>  
+	<script src="view/Ventas/js/PuntoVentas.js?0.05"></script>  
 	  
       
    	
