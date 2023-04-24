@@ -18,7 +18,7 @@ class Conectar{
        
         if($this->driver=="pgsql" || $this->driver==null){
             
-
+//
              $con = pg_connect("host=18.218.52.218 port=5432 dbname=sflores user=postgres password=Fcpc.2021");
             
         	if(!$con){
