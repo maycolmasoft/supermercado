@@ -49,8 +49,7 @@ $controladores=$_SESSION['controladores'];
                     
                 <li style="<?php echo getcontrolador("Usuarios",$controladores) ?>"><a href="index.php?controller=Usuarios&action=index"><i class="fa fa-circle-o"></i> Usuarios</a></li>
                 <li style="<?php echo getcontrolador("Clientes",$controladores) ?>"><a href="index.php?controller=Clientes&action=index"><i class="fa fa-circle-o"></i> Clientes</a></li>
-                
-				<li style="<?php echo getcontrolador("Controladores",$controladores) ?>"><a href="index.php?controller=Controladores&action=index"><i class="fa fa-circle-o"></i> Controladores</a></li>
+             	<li style="<?php echo getcontrolador("Controladores",$controladores) ?>"><a href="index.php?controller=Controladores&action=index"><i class="fa fa-circle-o"></i> Controladores</a></li>
                 <li style="<?php echo getcontrolador("Roles",$controladores) ?>"><a href="index.php?controller=Roles&action=index"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
                 <li style="<?php echo getcontrolador("PermisosRoles",$controladores) ?>"><a href="index.php?controller=PermisosRoles&action=index"><i class="fa fa-circle-o"></i> Permisos Roles</a></li>
                 <li style="<?php echo getcontrolador("Estados",$controladores) ?>"><a href="index.php?controller=Estados&action=index"><i class="fa fa-circle-o"></i>Estados</a></li>
@@ -81,6 +80,7 @@ $controladores=$_SESSION['controladores'];
                   <ul class="treeview-menu">
                   <li style="<?php echo getcontrolador("Productos",$controladores) ?>"><a href="index.php?controller=Productos&action=index"><i class="fa fa-circle-o"></i> Productos</a></li>
                   <li style="<?php echo getcontrolador("LineaProductos",$controladores) ?>"><a href="index.php?controller=LineaProductos&action=index"><i class="fa fa-circle-o"></i> Línea Productos</a></li>
+                  <li style="<?php echo getcontrolador("TipoProductos",$controladores) ?>"><a href="index.php?controller=TipoProductos&action=index"><i class="fa fa-circle-o"></i> Tipo Productos</a></li>
                   </ul>
                 </li>
              

@@ -1,8 +1,8 @@
 $(document).ready( function (){
-   Load_LineaProductos();
+   Mostrar();
 });
 
-function fnBeforeAction(mensaje){
+function antes_de_accion(mensaje){
 
 	swal({
         title: "PROCESANDO",
@@ -12,19 +12,23 @@ function fnBeforeAction(mensaje){
 }
 
 
-function RegistrarLineaProductos(){
+function LimpiarCampos(){
 	
-	
-	let $id_linea_productos = $("#id_linea_productos");
-	let $nombre_linea_productos = $("#nombre_linea_productos");
-	
+	            $('#id_tipo_productos').val("");
+				$('#nombre_tipo_productos').val("");
+				
+}
 
+function Registrar(){
 	
 	
-	if ($nombre_linea_productos.val() == ""){    
+	let $id_tipo_productos = $("#id_tipo_productos");
+	let $nombre_tipo_productos = $("#nombre_tipo_productos");
+	
+	if ($nombre_tipo_productos.val() == ""){    
 
-		$nombre_linea_productos.notify("Ingrese",{ position:"buttom left", autoHideDelay: 2000});
-		$("html, body").animate({ scrollTop: $($nombre_linea_productos).offset().top-120 }, tiempo);
+		$nombre_tipo_productos.notify("Ingrese",{ position:"buttom left", autoHideDelay: 2000});
+		$("html, body").animate({ scrollTop: $($nombre_tipo_productos).offset().top-120 }, tiempo);
 			
 		return false;
 
@@ -34,12 +38,12 @@ function RegistrarLineaProductos(){
 		
 	var parametros = new FormData();
 	
-	parametros.append('id_linea_productos',$id_linea_productos.val()); 
-	parametros.append('nombre_linea_productos',$nombre_linea_productos.val());
+	parametros.append('id_tipo_productos',$id_tipo_productos.val()); 
+	parametros.append('nombre_tipo_productos',$nombre_tipo_productos.val());
 	
 	$.ajax({
-		beforeSend:fnBeforeAction('Estamos procesado la información'),
-		url:"index.php?controller=LineaProductos&action=RegistrarLineaProductos",
+		beforeSend:antes_de_accion('Estamos procesado la información'),
+		url:"index.php?controller=TipoProductos&action=Registrar",
 		type:"POST",
 		dataType:"json",
 		data:parametros,		
@@ -55,8 +59,8 @@ function RegistrarLineaProductos(){
 				 text: x.mensaje,
 				 icon: "success"
 				});
-			Load_LineaProductos();
-			cleanInputs();			
+			Mostrar();
+			LimpiarCampos();			
 		}
 		//console.log(x);
 		
@@ -84,28 +88,28 @@ function RegistrarLineaProductos(){
 
 
 
-var editar = function(a){
+var Editar = function(a){
 	
 	
 	var element = $(a);
 	let $link = $(a);	
-	var id_linea_productos	= $link.data("id_linea_productos");
-	if( id_linea_productos <= 0 || id_linea_productos == "" || id_linea_productos == undefined ){
+	var id_tipo_productos	= $link.data("id_tipo_productos");
+	if( id_tipo_productos <= 0 || id_tipo_productos == "" || id_tipo_productos == undefined ){
 		return false;
 	}	
 	$.ajax({
-		beforeSend:fnBeforeAction('Estamos procesado la información'),
-		url:"index.php?controller=LineaProductos&action=DataEditar",
+		beforeSend:antes_de_accion('Estamos procesado la información'),
+		url:"index.php?controller=TipoProductos&action=Editar",
 		type:"POST",
 		dataType:"json",
-		data:{id_linea_productos:id_linea_productos}
+		data:{id_tipo_productos:id_tipo_productos}
 	}).done(function(datos){
 		swal.close();
 		 $.each(datos.data, function(index, value) {
          	
 			
-			    $('#id_linea_productos').val(value.id_linea_productos);
-				$('#nombre_linea_productos').val(value.nombre_linea_productos);
+			    $('#id_tipo_productos').val(value.id_tipo_productos);
+				$('#nombre_tipo_productos').val(value.nombre_tipo_productos);
 			
 		});
 		
@@ -121,26 +125,23 @@ var editar = function(a){
 		
 		swal.close();
 		
-		        $('#id_linea_productos').val("");
-				$('#nombre_linea_productos').val("");
+		        Mostrar();
+		   		LimpiarCampos();
 		
 	}).always(function(){
-		
 	})
-	
-	Load_LineaProductos();	
 	
 }
 	
 
-var eliminar = function(a){
+var Eliminar = function(a){
 	
 	
 	var element = $(a);
 	let $link = $(a);	
-	var id_linea_productos	= $link.data("id_linea_productos");
+	var id_tipo_productos	= $link.data("id_tipo_productos");
 	
-	if( id_linea_productos <= 0 || id_linea_productos == "" || id_linea_productos == undefined ){
+	if( id_tipo_productos <= 0 || id_tipo_productos == "" || id_tipo_productos == undefined ){
 		return false;
 	}	
 	
@@ -151,11 +152,11 @@ var eliminar = function(a){
 		if (isConfirm)
 		{
 				$.ajax({
-					beforeSend:fnBeforeAction('Estamos procesado la información'),
-					url:"index.php?controller=LineaProductos&action=DataEliminar",
+					beforeSend:antes_de_accion('Estamos procesado la información'),
+					url:"index.php?controller=TipoProductos&action=Eliminar",
 					type:"POST",
 					dataType:"json",
-					data:{id_linea_productos:id_linea_productos}
+					data:{id_tipo_productos:id_tipo_productos}
 				}).done(function(datos){
 					swal.close();
 					 
@@ -173,27 +174,21 @@ var eliminar = function(a){
 					
 					swal.close();
 					
-							$('#id_linea_productos').val("");
-							$('#nombre_linea_productos').val("");
+						
 					
 				}).always(function(){
 				})	
-		   Load_LineaProductos();
+		  				 Mostrar();
+		   				 LimpiarCampos();
 	
 		}
 	});
 	
-		
-	
+		 				 
 }
 
 
-function cleanInputs(){
-	
-	            $('#id_linea_productos').val("");
-				$('#nombre_linea_productos').val("");
-				
-}
+
 
 
 var viewTabla = viewTabla || {};
@@ -237,7 +232,7 @@ var idioma_espanol = {
 }
 
 
-var Load_LineaProductos	= function(){
+var Mostrar	= function(){
 	
 	var dataSend = { 'input_search': viewTabla.txt_busqueda.val()};
 	
@@ -247,7 +242,7 @@ var Load_LineaProductos	= function(){
 	    'serverMethod': 'post',
 	    'destroy' : true,
 	    'ajax': {
-	        'url':'index.php?controller=LineaProductos&action=dtMostrar_LineaProductos',
+	        'url':'index.php?controller=TipoProductos&action=Mostrar',
 	        'data': function ( d ) {
 	            return $.extend( {}, d, dataSend );
 	            },
@@ -255,12 +250,13 @@ var Load_LineaProductos	= function(){
                 return json.data;
               }
 	    },	
-	    'lengthMenu': [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+	    'lengthMenu': [ [10, 25, 50, -1], [10, 25, 50, "Todos"] ],
+	    'pageLength': -1,
 	    'order': [[ 1, "asc" ]],
 	    'columns': [	    	    
 	    	
 	    	{ data: 'numfila', orderable: true},
-    		{ data: 'nombre_linea_productos'},
+    		{ data: 'nombre_tipo_productos'},
     		{ data: 'opciones'}
     		    		
 	    ],
@@ -282,8 +278,8 @@ var Load_LineaProductos	= function(){
         
         	 { extend: 'copy'},
              {extend: 'csv'},
-             {extend: 'excel', title: 'Lista Linea Productos'},
-             {extend: 'pdf', title: 'Lista Linea Productos'},
+             {extend: 'excel', title: 'Datos Registrados'},
+             {extend: 'pdf', title: 'Datos Registrados'},
 
              {extend: 'print',
               customize: function (win){

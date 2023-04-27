@@ -4,7 +4,7 @@
          
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Linea Productos</title>
+    <title>Supermercado</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     
  
@@ -53,7 +53,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo $helper->url("Usuarios","Bienvenida"); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">LineaProductos</li>
+        <li class="active">Tipo Productos</li>
       </ol>
     </section>   
 
@@ -62,7 +62,7 @@
 	<section class="content">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h4 class="text-info">Registrar Linea Productos</h4>  
+          <h4 class="text-info">Registrar</h4>  
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
@@ -82,10 +82,10 @@
                                <div class="col-lg-4 col-xs-12 col-md-4">
                     		   <div class="form-group">
                       
-                                	              <input type="hidden" class="form-control" id="id_linea_productos" name="id_linea_productos" value="0" >
+                                	              <input type="hidden" class="form-control" id="id_tipo_productos" name="id_tipo_productos" value="0" >
                                          
-                                                  <label for="nombre_linea_productos" class="control-label">Nombre Línea Productos:</label>
-                                                  <input type="text" class="form-control" id="nombre_linea_productos" name="nombre_linea_productos" value=""  placeholder="Nombre Línea Productos..">
+                                                  <label for="nombre_tipo_productos" class="control-label">Nombre:</label>
+                                                  <input type="text" class="form-control" id="nombre_tipo_productos" name="nombre_tipo_productos" value=""  placeholder="Nombre..">
                                                   
                                 </div>
                                 </div>
@@ -104,8 +104,8 @@
 	                          
                     		    <div class="col-xs-12 col-md-12 col-lg-12" style="text-align: center; margin-top:20px">
                     		    <div class="form-group">
-                                                      <button type="button" name="Guardar" class="btn btn-success" onclick="RegistrarLineaProductos()"><i class="glyphicon glyphicon-floppy-saved"> Guardar</i></button>
-                                					  <a class="btn btn-primary" href="<?php  echo $helper->url("LineaProductos","index"); ?>"><i class="glyphicon glyphicon-floppy-remove"> Cancelar</i></a>
+                                                      <button type="button" name="Guardar" class="btn btn-success" onclick="Registrar()"><i class="glyphicon glyphicon-floppy-saved"> Guardar</i></button>
+                                					  <a class="btn btn-primary" href="<?php  echo $helper->url("TipoProductos","index"); ?>"><i class="glyphicon glyphicon-floppy-remove"> Cancelar</i></a>
                                 
                                 </div>
                     		    </div>
@@ -115,6 +115,7 @@
         	
         	
         
+      </div>
       </div>
      </section>
 
@@ -127,7 +128,7 @@
     <section class="content">
       <div class="box box-success">
         <div class="box-header with-border">
-          <h4 class="text-info">Consultar Línea Productos Registrados</h4>  
+          <h4 class="text-info">Registros</h4>  
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
@@ -146,7 +147,7 @@
                 			<thead>
                 		    <tr class="danger">
                 					<th>N°</th>
-                    				<th>Nombre Línea Productos</th>
+                    				<th>Nombre</th>
                     				<th>Opciones</th>
                     			</tr>                    				
                 			</thead>  
@@ -180,7 +181,7 @@
 	  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
-    <script src="view/Administracion/js/LineaProductos.js?0.16"></script>  
+    <script src="view/Administracion/js/TipoProductos.js?0.08"></script>  
 	  
       
    	
