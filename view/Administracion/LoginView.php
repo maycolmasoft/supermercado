@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>supermercado</title>
+	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="view/bootstrap/otros/login/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="view/bootstrap/otros/login/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -32,24 +32,20 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url(view/bootstrap/otros/login/images/bg-01.jpg);">
-					<span class="login100-form-title-1">
-						Iniciar Sesión
-					</span>
-					</div>
-
+				<div class="login100-form-title" style="background-image: url(view/bootstrap/otros/login/images/logo.png);" >
+				</div>
 
 				<form class="login100-form validate-form" action="<?php echo $helper->url("Usuarios","Loguear"); ?>" method="post" >
 					
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Ingrese Cedula">
-						<span class="label-input100">Usuario:</span>
+						<span class="label-input100"><b>Usuario:</b></span>
 						<input class="input100" type="text" name="usuario" id="usuario" placeholder="cedula..">
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-18" data-validate = "Ingrese Password">
-						<span class="label-input100">Clave:</span>
-						<input class="input100" type="password" name="clave" id="clave" placeholder="password..">
+						<span class="label-input100"><b>Clave:</b></span>
+						<input class="input100" type="password" name="clave" id="clave" placeholder="clave..">
 						<span class="focus-input100"></span>
 					</div>
 

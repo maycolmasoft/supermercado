@@ -85,7 +85,7 @@
 	
     
     <script type="text/javascript">
-
+   
     var interval, mouseMove;
 
     $(document).mousemove(function(){

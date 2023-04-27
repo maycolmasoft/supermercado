@@ -198,7 +198,11 @@
                 			</tbody>                  			
                 			<tfoot>
                 				<tr>
+<<<<<<< Updated upstream
                         			<td style="text-align: right;"><b>TOTAL EFECTIVO CAJA</b></td> 
+=======
+                        			<td style="text-align: right;"><b>TOTAL EFECTIVO EN CAJA</b></td> 
+>>>>>>> Stashed changes
                         			<td ><b>..</b></td>
                         			<td ><b></b></td>
                         			<td ><b></b></td>
@@ -241,7 +245,11 @@
                 			</tbody>                  			
                 			<tfoot>
                 				<tr>
+<<<<<<< Updated upstream
                         			<td style="text-align: right;"><b>TOTAL EFECTIVO CAJA</b></td> 
+=======
+                        			<td style="text-align: right;"><b>TOTAL EFECTIVO EN CAJA</b></td> 
+>>>>>>> Stashed changes
                         			<td ><b>..</b></td>
                     			</tr>
                 			</tfoot>

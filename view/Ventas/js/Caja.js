@@ -41,8 +41,11 @@ function CargarTipoTransaccion(){
    
 }
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 $("#movimiento").change(function() {
       
 	 var movimiento = $(this).val();
