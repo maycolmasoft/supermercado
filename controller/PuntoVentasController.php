@@ -701,6 +701,46 @@ class PuntoVentasController extends ControladorBase{
 
 	}
 	
+	public function autompleteProductos(){
+	    
+	    $db = new ModeloModel();
+	    
+	    if(isset($_GET['term'])){
+	        
+	        $codigo_productos = $_GET['term'];
+	        	        
+	        $columnas = "id_productos, nombre_productos, codigo_productos, precio_venta_productos_xcaja ";
+	        $tablas = "public.productos";
+	        $where = "codigo_productos LIKE '$codigo_productos%' ";
+	        $id = "codigo_productos ";
+	        $limit = "LIMIT 10";
+	        
+	        $rsProductos = $db->getCondicionesPag($columnas,$tablas,$where,$id,$limit);
+	        
+	        $respuesta = array();
+	        
+	        if(!empty($rsProductos) ){
+	            
+	            foreach ($rsProductos as $res){
+	                
+	                $clss_producto = new stdClass;
+	                $clss_producto->id = $res->id_productos;
+	                $clss_producto->value = $res->codigo_productos;
+	                $clss_producto->label = $res->codigo_productos.' | '.$res->nombre_productos;
+	                $clss_producto->nombre = $res->nombre_productos;
+	                
+	                $respuesta[] = $clss_producto;
+	            }
+	            
+	            echo json_encode($respuesta);
+	            
+	        }else{
+	            
+	            echo '[{"id":"","value":"Cuenta No Encontrada"}]';
+	        }
+	        
+	    }
+	}
 	
 }
 ?>

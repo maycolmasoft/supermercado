@@ -7,7 +7,25 @@ $(document).ready( function (){
    CargarEstado();
    CargarIva();
    Load_Productos();
+   inicia_tabla_ventas();
    $(".cantidades").inputmask();
+
+   $("#tblventas").on("click", ".mdbtnRemoveFila", function (event) {
+		
+	let id_distribucion	= $(this).closest("tr").attr('id').split('_')[1];
+	let fila	= $(this).closest("tr");
+	
+	if( !isNaN( id_distribucion ) &&  id_distribucion > 0 ){		
+		
+		fila.remove();
+		
+	}else{
+		fila.remove();  
+	}
+	
+	
+});
+
 });
 
 $("#btn-buscar-cliente").on('click', function(){
@@ -24,12 +42,11 @@ $("#btn-buscar-cliente").on('click', function(){
 			let data	= x.data[0];
 			$("#hdn_id_cliente").val( data.id_clientes);
 			let tagcliente = $('<ul>');
-			tagcliente.append( '<li>'+data.nombre_tipo_identificacion+'</li>' );	
-			tagcliente.append( '<li>'+data.identificacion_clientes+'</li>' );	
-			tagcliente.append( '<li>'+data.razon_social_clientes+'</li>' );	
-			tagcliente.append( '<li>'+data.direccion_clientes+'</li>' );
-			tagcliente.append( '<li>'+data.celular_clientes+'</li>' );
-			tagcliente.append( '<li>'+data.correo_clientes+'</li>' );	
+			tagcliente.append( '<li>'+data.nombre_tipo_identificacion+' : '+data.identificacion_clientes+'</li>' );	
+			tagcliente.append( '<li> RAZON SOCIAL : '+data.razon_social_clientes+'</li>' );	
+			tagcliente.append( '<li> DIRECCION : '+data.direccion_clientes+'</li>' );
+			tagcliente.append( '<li> CELULAR : '+data.celular_clientes+'</li>' );
+			tagcliente.append( '<li> CORREO : '+data.correo_clientes+'</li>' );	
 
 			$("#dv-datos-cliente").html(tagcliente);
 		}else{
@@ -931,7 +948,134 @@ $(document).ready( function (){
 			
 		});  
 	}
-});		    		
+});		
+
+
+$("#codigo_productos").on("focus",function(e) {
+	
+	let _elemento = $(this);
+	
+    if ( !_elemento.data("autocomplete") ) {
+    	    	
+    	_elemento.autocomplete({
+    		minLength: 2,    	    
+    		source:function (request, response) {
+    			$.ajax({
+    				url:"index.php?controller=PuntoVentas&action=autompleteProductos",
+    				dataType:"json",
+    				type:"GET",
+    				data:{term:request.term},
+    			}).done(function(x){
+    				
+    				response(x); 
+    				
+    			}).fail(function(xhr,status,error){
+    				var err = xhr.responseText
+    				console.log(err)
+    			})
+    		},
+    		select: function (event, ui) {
+     	       	// Set selection
+    			
+    			if(ui.item.id == ''){
+    				 _elemento.notify("Producto no Encontrado",{ position:"top center"});    				 
+    				 return;
+    			}
+
+				let cantidadtabla = 0;
+				let nuevo = 1; //1--si 0--no
+
+				$.each( $("#tblventas").find('tbody tr'), function(i,v){
+					let element = $(this);
+					let fila = element.find("input:hidden[name='mod_venta_id_productos']");
+					if( fila.val() == ui.item.id ){
+						nuevo = 0;
+						cantidadtabla = element.find("input:text[name='mod_venta_cantidad']").length ? element.find("input:text[name='mod_venta_cantidad']").val() : 0;
+					}else{
+						nuevo = 1;
+					}
+				});
+
+				cantidadtabla++;
+
+				if( nuevo == 1 ){
+					let fila	= devuelveHtmlFila( ui.item.nombre, cantidadtabla, 15.5, ui.item.id, 0.87, 16.37);
+					agrega_fila_tabla_ventas( fila, 1); 
+				}else{
+					$.each( $("#tblventas").find('tbody tr'), function(i,v){
+						let element = $(this);
+						let fila = element.find("input:hidden[name='mod_venta_id_productos']");
+						if( fila.val() == ui.item.id ){
+							if(element.find("input:text[name='mod_venta_cantidad']").length ){
+								element.find("input:text[name='mod_venta_cantidad']").val( cantidadtabla );
+							}
+						}
+					});
+				}				 
+    			    			    			
+    			$("#hdn_productos").val( ui.item.id );
+    			     	     
+     	    },
+     	   appendTo: "",
+     	   change: function(event,ui){
+     		   
+     		   	if( ui.item == null ){
+     			   
+     				_elemento.notify("Producto no Encontrado",{ position:"top center"});
+     				_elemento.val('');
+     			 	$("#hdn_productos").val( 0 );
+     			 
+     		   }
+     	   }
+    	
+    	})
+    }
+    
+})
+
+var agrega_fila_tabla_ventas	= function( pfila = "", pidentificador = 0 ){
+	
+	let newRow = $('<tr id="tr_'+pidentificador+'">');
+    let columnas	= pfila;
+    newRow.append(columnas);    
+    $("#tblventas tbody").append(newRow);    
+	
+}
+
+var inicia_tabla_ventas	= function(  ){
+	
+	let newRow = $('<tr id="tr_0">');
+    let columnas	= devuelveHtmlFila('', 0, 0, 0, 0,0);
+    newRow.append(columnas);    
+    $("#tblventas tbody").append(newRow);    
+	
+}
+
+var devuelveHtmlFila	= function(p_nombre = '', p_cantidad = 0,  p_precio_unitario = 0, p_id_productos = 0, p_iva = 0, p_total = 0 ){
+	
+	let cols = "";
+    
+    cols += '<td style="font-size: 12px;">';
+    cols += '<input type="text" class="form-control input-sm pventa" name="mod_venta_nombre" value="'+ p_nombre +'">';
+    cols += '</td>';
+    cols += '<td style="font-size: 12px;">';
+    cols += '<input type="text" class="form-control input-sm p_cantidad p_cantidad_autocomplete" name="mod_venta_cantidad" value="'+ p_cantidad +'">';
+    cols += '</td>';
+    cols += '<td style="font-size: 12px;">';
+    cols += '<input type="text" style="border: 0;" class="form-control input-sm" value="'+ p_precio_unitario +'" name="mod_venta_punitario">';
+    cols += '<input type="hidden" name="mod_venta_id_productos" value="'+ p_id_productos +'" >';
+    cols += '</td>';
+    cols += '<td style="font-size: 12px;">';
+    //cols += devuelveHtmlSelectMdDistribucion( p_tipo );
+	cols += '<input type="text" style="border: 0;" class="form-control input-sm" value="'+ p_iva +'" name="mod_venta_iva">';
+    cols += '</td>';
+    cols += '<td style="font-size: 12px;">';
+    cols += '<input type="number" class="form-control input-sm text-right " name="mod_venta_ptotal" value="'+ p_total +'">';
+    cols += '</td>';
+    cols += '<td><input type="button" class="mdbtnRemoveFila form-control btn btn-sm btn-danger "  value="Delete"></td>';
+    
+    return cols;
+}
 		
 
 

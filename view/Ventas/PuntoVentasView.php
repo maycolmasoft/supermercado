@@ -110,23 +110,71 @@
             </div>            
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="main-ventas">
+            <div class="" style="background-color: #000000; text-align: center; height: 60px;" >
+					<label for="codigo_productos" class="control-label" style="color:#008000; font-size: 40px;">$ <span id="total_factura">0.00</span></label>
+				 </div>   
+            </div>
+            <hr>
+            <div class="main-productos">
+
+            <div id="div_ventas" class="letrasize11">
+                   	<table id="tblventas" class="table table-striped table-bordered">
+                			<thead>
+                		    <tr class="danger">
+                					<th>nombre</th>
+                    				<th>cantidad</th>
+                    				<th>precio U</th>
+                            <th>Iva</th>
+                    				<th>Total</th>
+                            <th>Opciones</th>
+                    			</tr>                    				
+                			</thead>  
+                			<tbody>
+                				
+                			</tbody>                  			
+                			<tfoot>
+                				
+                			</tfoot>
+                		</table>
+            		</div>
+
+            </div>
+         
+          </div>
+
+          <div class="col-md-6">
+            <div class="detalle-ventas">
+            <div class="form-group">
+                                                  <input type="text" class="form-control" id="codigo_productos" name="codigo_productos" value=""  placeholder="BUSQUE UN PRODUCTO AQUI..">
+                                                  <input type="hidden" id="hdn_productos" value="0" >
+                                                  
+                                </div> 
+            </div>
+              <hr>
+            <div class="detalle-productos">
+           
+
+                            
+            </div>
+         
+          </div>
+        </div>
         	
 			 <div class="col-lg-12 col-xs-12 col-md-12">
 			 
 				
-				 <div class="row" style="background-color: #000000; text-align: center; height: 60px;" >
-					<label for="codigo_productos" class="control-label" style="color:#008000; font-size: 40px;">$ <span id="total_factura">0.00</span></label>
-				 </div>
+				
 			</div>
 			 
 
 			 
             <div class="row" style="margin-top:80px;">
                                <div class="col-lg-12 col-xs-12 col-md-12">
-                    		   <div class="form-group">
-                                                  <input type="text" class="form-control" id="codigo_productos" name="codigo_productos" value=""  placeholder="BUSQUE UN PRODUCTO AQUI..">
-                                                  
-                                </div>
+                    		   
                                 </div>
                                     
             </div>        		   
@@ -253,7 +301,7 @@
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
     <script src="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/js/fileinput.min.js"></script> 
 	<script src="view/bootstrap/otros/inputmask_bundle/jquery.inputmask.bundle.js"></script>
-	<script src="view/Ventas/js/PuntoVentas.js?0.05"></script>  
+	<script src="view/Ventas/js/PuntoVentas.js?0.09"></script>  
 	  
       
    	
