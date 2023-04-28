@@ -44,13 +44,14 @@ class ProductosController extends ControladorBase{
 	}
     
     
-	public function CargarTipoProductos(){
+	
+	public function CargarLineaProductos(){
 	    
 	    session_start();
 	    
 	    $usuarios= new UsuariosModel();
 	    
-	    $query1="select id_tipo_productos , nombre_tipo_productos  from tipo_productos order by id_tipo_productos  asc";
+	    $query1="select id_linea_productos , nombre_linea_productos from linea_productos order by id_linea_productos  asc";
 	    $preguntas  = $usuarios->enviaquery($query1);
 	    
 	    if(!empty($preguntas)){
@@ -58,7 +59,36 @@ class ProductosController extends ControladorBase{
 	        exit();
 	    }
 	}
-  
+	
+	
+	
+	public function CargarTipoProductos(){
+	    
+	    session_start();
+	    
+	    $usuarios= new UsuariosModel();
+	    
+	    $id_linea_productos = (isset($_POST['id_linea_productos'])) ? $_POST['id_linea_productos'] : 0;
+	    
+	    if($id_linea_productos > 0){
+	        
+	        $columnas="id_tipo_productos, nombre_tipo_productos";
+	        $tabla = "tipo_productos";
+	        $where = "id_linea_productos='$id_linea_productos'";
+	        $id="id_tipo_productos";
+	        $resulset = $usuarios->getCondiciones($columnas,$tabla,$where,$id);
+	        
+	        if(!empty($resulset) && count($resulset)>0){
+	            
+	            echo json_encode(array('data'=>$resulset));
+	            
+	        }
+	    }
+	    
+	}
+	
+	
+	
     public function CargarMarca(){
 	    
 		session_start();
@@ -97,6 +127,34 @@ class ProductosController extends ControladorBase{
 	        echo json_encode(array('data'=>$preguntas));
 	        exit();
 	    }
+	}
+	
+	
+	
+	
+	public function CargarMedida(){
+	    
+	    session_start();
+	    
+	    $usuarios= new UsuariosModel();
+	    
+	    $id_presentacion_productos = (isset($_POST['id_presentacion_productos'])) ? $_POST['id_presentacion_productos'] : 0;
+	    
+	    if($id_presentacion_productos > 0){
+	        
+	        $columnas="id_medida_productos , nombre_medida_productos";
+	        $tabla = "medida_productos";
+	        $where = "id_presentacion_productos='$id_presentacion_productos'";
+	        $id="id_medida_productos";
+	        $resulset = $usuarios->getCondiciones($columnas,$tabla,$where,$id);
+	        
+	        if(!empty($resulset) && count($resulset)>0){
+	            
+	            echo json_encode(array('data'=>$resulset));
+	            
+	        }
+	    }
+	    
 	}
   
   
@@ -147,7 +205,11 @@ class ProductosController extends ControladorBase{
 	    if($id_productos > 0 ){
 	        
 	    $query1="SELECT id_productos, nombre_productos, codigo_productos, stock_productos, precio_compra_productos, precio_venta_productos, precio_venta_mayoreo_productos, stock_min_venta_mayoreo_productos,
-                imagen_productos, id_tipo_productos, id_marca_productos, id_presentacion_productos, id_estado, id_iva, perecedero_productos, inventariable_productos, creado, modificado, id_usuarios
+                imagen_productos, id_tipo_productos, id_marca_productos, id_presentacion_productos, id_estado, id_iva, perecedero_productos, inventariable_productos, creado, modificado, id_usuarios,
+    			id_linea_productos,
+    			id_medida_productos,
+    			precio_venta_productos_xcaja,
+    			precio_marcado_productos_pvp
 				FROM public.productos
 				WHERE id_productos='$id_productos'";
 	    $preguntas  = $usuarios->enviaquery($query1);
@@ -202,10 +264,13 @@ class ProductosController extends ControladorBase{
 	        
 	        
 	        $columnas1 = "a.id_productos , a.codigo_productos , a.nombre_productos, b.nombre_marca_productos , d.nombre_presentacion_productos , a.stock_min_venta_mayoreo_productos , a.stock_productos , 
-			a.precio_compra_productos , a.precio_venta_productos , f.nombre_iva , e.id_estado, e.nombre_estado, g.nombre_usuarios, a.precio_venta_mayoreo_productos ";
+			a.precio_compra_productos , a.precio_venta_productos , f.nombre_iva , e.id_estado, e.nombre_estado, g.nombre_usuarios, a.precio_venta_mayoreo_productos, a.precio_venta_productos_xcaja , a.precio_marcado_productos_pvp ,
+			h.nombre_linea_productos , i.nombre_medida_productos, c.nombre_tipo_productos  ";
 	        $tablas1   = "productos a
 						inner join marca_productos b on a.id_marca_productos =b.id_marca_productos 
 						inner join tipo_productos c on a.id_tipo_productos =c.id_tipo_productos 
+                        inner join linea_productos h on a.id_linea_productos =h.id_linea_productos 
+						inner join medida_productos i on a.id_medida_productos =i.id_medida_productos 
 						inner join presentacion_productos d on a.id_presentacion_productos =d.id_presentacion_productos 
 						inner join estado e ON a.id_estado =e.id_estado 
 						inner join iva f on a.id_iva =f.id_iva
@@ -236,7 +301,11 @@ class ProductosController extends ControladorBase{
 	            6 => 'a.precio_compra_productos',
 				7 => 'a.precio_venta_productos',
 				8 => 'a.precio_venta_mayoreo_productos',
-				9 => 'e.nombre_estado',
+				9 => 'a.precio_venta_productos_xcaja',
+	            10 => 'a.precio_marcado_productos_pvp',
+	            11 => 'h.nombre_linea_productos',
+	            12 => 'i.nombre_medida_productos',
+	            13 => 'c.nombre_tipo_productos'
 				
 	            
 	        );
@@ -295,13 +364,21 @@ class ProductosController extends ControladorBase{
 	            $dataFila['codigo_productos']       = $res->codigo_productos;
 	            $dataFila['nombre_productos']       = $res->nombre_productos;
 	            $dataFila['nombre_marca_productos']       = $res->nombre_marca_productos;
-	            
 	            $dataFila['nombre_presentacion_productos']       = $res->nombre_presentacion_productos;
+	            $dataFila['nombre_medida_productos']       = $res->nombre_medida_productos;
+	            
 	            $dataFila['stock_min_venta_mayoreo_productos']       = $res->stock_min_venta_mayoreo_productos;
 	            $dataFila['stock_productos']       = $limite;
+	            
+	            $dataFila['precio_marcado_productos_pvp']       = $res->precio_marcado_productos_pvp;
+	            
 	            $dataFila['precio_compra_productos']       = $res->precio_compra_productos;
 				$dataFila['precio_venta_productos']       = $res->precio_venta_productos;
 				$dataFila['precio_venta_mayoreo_productos']       = $res->precio_venta_mayoreo_productos;
+				
+				$dataFila['precio_venta_productos_xcaja']       = $res->precio_venta_productos_xcaja;
+				
+				
 				$dataFila['nombre_estado']       = $estado;
 	            $dataFila['opciones'] = $opciones;
 	            
@@ -385,6 +462,12 @@ class ProductosController extends ControladorBase{
 	        $_usuario_usuarios  = $_SESSION['usuario_usuarios'];
 	        $id_usuarios       = $_SESSION['id_usuarios'];
 	        
+	        $id_linea_productos     					= $_POST['id_linea_productos'];
+	        $id_medida_productos     					= $_POST['id_medida_productos'];
+	        $precio_venta_productos_xcaja     		    = $_POST['precio_venta_productos_xcaja'];
+	        $precio_marcado_productos_pvp     	        = $_POST['precio_marcado_productos_pvp'];
+	        
+	       
 	        
 	        
 	    }catch (Exception $e) {
@@ -434,8 +517,12 @@ class ProductosController extends ControladorBase{
 					perecedero_productos='$perecedero_productos',
 					inventariable_productos='$inventariable_productos',
 					id_usuarios='$id_usuarios',
-					imagen_productos='$imagen_productos'";
-		    		$tabla = "productos";
+					imagen_productos='$imagen_productos',
+                    id_linea_productos='$id_linea_productos',
+                    id_medida_productos='$id_medida_productos',
+                    precio_venta_productos_xcaja='$precio_venta_productos_xcaja',
+                    precio_marcado_productos_pvp='$precio_marcado_productos_pvp'";
+                 	$tabla = "productos";
 		    		$where = "id_productos = '$id_productos'";
 		    		$resultado=$usuarios->UpdateBy($colval, $tabla, $where);
 		    		 
@@ -457,7 +544,11 @@ class ProductosController extends ControladorBase{
 					id_estado='$id_estado',
 					perecedero_productos='$perecedero_productos',
 					inventariable_productos='$inventariable_productos',
-					id_usuarios='$id_usuarios'";
+					id_usuarios='$id_usuarios',
+                    id_linea_productos='$id_linea_productos',
+                    id_medida_productos='$id_medida_productos',
+                    precio_venta_productos_xcaja='$precio_venta_productos_xcaja',
+                    precio_marcado_productos_pvp='$precio_marcado_productos_pvp'";
 		    		$tabla = "productos";
 		    		$where = "id_productos = '$id_productos'";
 		    		$resultado=$usuarios->UpdateBy($colval, $tabla, $where);
@@ -498,7 +589,7 @@ class ProductosController extends ControladorBase{
 									'$id_iva',
 									'$perecedero_productos',
 									'$inventariable_productos',
-									'$id_usuarios'";
+									'$id_usuarios','$id_linea_productos','$id_medida_productos','$precio_venta_productos_xcaja','$precio_marcado_productos_pvp'";
 		    		$_queryInsercionDetalle = $usuarios->getconsultaPG($funcion, $parametros);
 		    		$resultado= $usuarios->llamarconsultaPG($_queryInsercionDetalle);
 		    		 
@@ -532,7 +623,11 @@ class ProductosController extends ControladorBase{
 							id_estado='$id_estado',
 							perecedero_productos='$perecedero_productos',
 							inventariable_productos='$inventariable_productos',
-							id_usuarios='$id_usuarios'";
+							id_usuarios='$id_usuarios',
+                            id_linea_productos='$id_linea_productos',
+                            id_medida_productos='$id_medida_productos',
+                            precio_venta_productos_xcaja='$precio_venta_productos_xcaja',
+                            precio_marcado_productos_pvp='$precio_marcado_productos_pvp'";
 							$tabla = "productos";
 							$where = "codigo_productos = '$codigo_productos'";
 							$resultado=$usuarios->UpdateBy($colval, $tabla, $where);
@@ -563,7 +658,7 @@ class ProductosController extends ControladorBase{
 									'$id_iva',
 									'$perecedero_productos',
 									'$inventariable_productos',
-									'$id_usuarios'";
+									'$id_usuarios','$id_linea_productos','$id_medida_productos','$precio_venta_productos_xcaja','$precio_marcado_productos_pvp'";
 		    		$_queryInsercionDetalle = $usuarios->getconsultaPG($funcion, $parametros);
 		    		$resultado= $usuarios->llamarconsultaPG($_queryInsercionDetalle);
 		    		 
@@ -644,6 +739,11 @@ class ProductosController extends ControladorBase{
 			$respuesta->id_presentacion_productos = $resultSet[0]->id_presentacion_productos;
 			$respuesta->id_estado = $resultSet[0]->id_estado;
 			$respuesta->id_iva = $resultSet[0]->id_iva;
+			$respuesta->id_linea_productos = $resultSet[0]->id_linea_productos;
+			$respuesta->id_medida_productos = $resultSet[0]->id_medida_productos;
+			$respuesta->precio_venta_productos_xcaja = $resultSet[0]->precio_venta_productos_xcaja;
+			$respuesta->precio_marcado_productos_pvp = $resultSet[0]->precio_marcado_productos_pvp;
+	
 			
 			if($resultSet[0]->perecedero_productos=='t'){
 				

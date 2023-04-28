@@ -2,7 +2,7 @@
      
 $(document).ready( function (){
    init_controles();
-   CargarTipoProductos();
+   CargarLineaProductos();
    CargarPresentacion();
    CargarEstado();
    CargarIva();
@@ -13,13 +13,13 @@ $(document).ready( function (){
 
 
 
-function CargarTipoProductos(){
+function CargarLineaProductos(){
 		
-	let $ddlPeriodo = $("#id_tipo_productos");
+	let $ddlPeriodo = $("#id_linea_productos");
 	
 	$.ajax({
 		  beforeSend:function(){},
-		  url:"index.php?controller=Productos&action=CargarTipoProductos",
+		  url:"index.php?controller=Productos&action=CargarLineaProductos",
 		  type:"POST",
 		  dataType:"json",
 		  data:null
@@ -29,7 +29,7 @@ function CargarTipoProductos(){
 	  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
 		  
 		  $.each(datos.data, function(index, value) {
-			$ddlPeriodo.append("<option value= " +value.id_tipo_productos +" >" + value.nombre_tipo_productos  + "</option>"); 
+			$ddlPeriodo.append("<option value= " +value.id_linea_productos +" >" + value.nombre_linea_productos  + "</option>"); 
 		  });
 		  
 	}).fail(function(xhr,status,error){
@@ -40,6 +40,38 @@ function CargarTipoProductos(){
 		  
 	})
    
+}
+
+
+
+function CargarTipoProductos(id_linea_productos){
+      
+	  let $ddlPeriodoEleccion = $("#id_tipo_productos");
+      
+      $.ajax({
+            beforeSend:function(){},
+            url:"index.php?controller=Productos&action=CargarTipoProductos",
+            type:"POST",
+            dataType:"json",
+			async: false,
+            data:{id_linea_productos:id_linea_productos}
+      }).done(function(datos){           
+            
+    	  $ddlPeriodoEleccion.empty();
+    	  $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
+            
+            $.each(datos.data, function(index, value) {
+            	$ddlPeriodoEleccion.append("<option value= " +value.id_tipo_productos +" >" + value.nombre_tipo_productos  + "</option>");     
+            });
+            
+      }).fail(function(xhr,status,error){
+            var err = xhr.responseText
+            console.log(err)
+            $ddlPeriodoEleccion.empty();
+            $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
+            
+      })
+      
 }
 
 
@@ -76,6 +108,8 @@ function CargarMarca(id_tipo_productos){
 }
 
 
+
+
 function CargarPresentacion(){
 		
 	let $ddlPeriodo = $("#id_presentacion_productos");
@@ -104,6 +138,38 @@ function CargarPresentacion(){
 	})
    
 }
+
+
+function CargarMedida(id_presentacion_productos){
+      
+	  let $ddlPeriodoEleccion = $("#id_medida_productos");
+      
+      $.ajax({
+            beforeSend:function(){},
+            url:"index.php?controller=Productos&action=CargarMedida",
+            type:"POST",
+            dataType:"json",
+			async: false,
+            data:{id_presentacion_productos:id_presentacion_productos}
+      }).done(function(datos){           
+            
+    	  $ddlPeriodoEleccion.empty();
+    	  $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
+            
+            $.each(datos.data, function(index, value) {
+            	$ddlPeriodoEleccion.append("<option value= " +value.id_medida_productos +" >" + value.nombre_medida_productos  + "</option>");     
+            });
+            
+      }).fail(function(xhr,status,error){
+            var err = xhr.responseText
+            console.log(err)
+            $ddlPeriodoEleccion.empty();
+            $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
+            
+      })
+      
+}
+
 
 function CargarEstado(){
 		
@@ -166,6 +232,18 @@ function CargarIva(){
 
 
 
+
+$("#id_linea_productos").change(function() {
+      
+	 var id_linea_productos = $(this).val();
+	  let $ddlPeriodoEleccion = $("#id_tipo_productos");
+	  $ddlPeriodoEleccion.empty();
+	  $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
+	  CargarTipoProductos(id_linea_productos);
+
+ });
+
+
 $("#id_tipo_productos").change(function() {
       
 	 var id_tipo_productos = $(this).val();
@@ -173,6 +251,17 @@ $("#id_tipo_productos").change(function() {
 	  $ddlPeriodoEleccion.empty();
 	  $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
 	  CargarMarca(id_tipo_productos);
+
+ });
+
+
+$("#id_presentacion_productos").change(function() {
+      
+	 var id_presentacion_productos = $(this).val();
+	  let $ddlPeriodoEleccion = $("#id_medida_productos");
+	  $ddlPeriodoEleccion.empty();
+	  $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
+	  CargarMedida(id_presentacion_productos);
 
  });
 
@@ -226,6 +315,12 @@ function RegistrarProductos(){
 	
 	var tiempo = tiempo || 1000;
 	
+	let $id_linea_productos    = $("#id_linea_productos");
+	let $id_medida_productos    = $("#id_medida_productos");
+	let $precio_venta_productos_xcaja    = $("#precio_venta_productos_xcaja");
+	let $precio_marcado_productos_pvp    = $("#precio_marcado_productos_pvp");
+	
+	
 	
 	
 	if ($id_productos.val() == ""){    
@@ -273,6 +368,23 @@ function RegistrarProductos(){
 
 	}
 	
+	if ($precio_marcado_productos_pvp.val() == ""){    
+
+		$precio_marcado_productos_pvp.notify("Ingrese",{ position:"buttom left", autoHideDelay: 2000});
+		$("html, body").animate({ scrollTop: $($precio_marcado_productos_pvp).offset().top-120 }, tiempo);
+			
+		return false;
+
+	}
+	
+	if ($precio_marcado_productos_pvp.val() <= 0){    
+
+		$precio_marcado_productos_pvp.notify("Valor debe ser mayor a 0",{ position:"buttom left", autoHideDelay: 2000});
+		$("html, body").animate({ scrollTop: $($precio_marcado_productos_pvp).offset().top-120 }, tiempo);
+			
+		return false;
+
+	}
 	
 	if ($precio_compra_productos.val() == ""){    
 
@@ -346,6 +458,34 @@ function RegistrarProductos(){
 
 	}
 	
+	if ($precio_venta_productos_xcaja.val() == ""){    
+
+		$precio_venta_productos_xcaja.notify("Ingrese",{ position:"buttom left", autoHideDelay: 2000});
+		$("html, body").animate({ scrollTop: $($precio_venta_productos_xcaja).offset().top-120 }, tiempo);
+			
+		return false;
+
+	}
+	
+	if ($precio_venta_productos_xcaja.val() <= 0 ){    
+
+		$precio_venta_productos_xcaja.notify("Valor debe ser mayor a 0",{ position:"buttom left", autoHideDelay: 2000});
+		$("html, body").animate({ scrollTop: $($precio_venta_productos_xcaja).offset().top-120 }, tiempo);
+			
+		return false;
+
+	}
+	
+	if ($id_linea_productos.val() == 0 ){    
+
+		$id_linea_productos.notify("Seleccione",{ position:"buttom left", autoHideDelay: 2000});
+		$("html, body").animate({ scrollTop: $($id_linea_productos).offset().top-120 }, tiempo);
+			
+		return false;
+
+	}
+	
+	
 	if ($id_tipo_productos.val() == 0 ){    
 
 		$id_tipo_productos.notify("Seleccione",{ position:"buttom left", autoHideDelay: 2000});
@@ -372,6 +512,16 @@ function RegistrarProductos(){
 		return false;
 
 	}
+	
+	if ($id_medida_productos.val() == 0 ){    
+
+		$id_medida_productos.notify("Seleccione",{ position:"buttom left", autoHideDelay: 2000});
+		$("html, body").animate({ scrollTop: $($id_medida_productos).offset().top-120 }, tiempo);
+			
+		return false;
+
+	}
+	
 	
 	if ($id_iva.val() == 0 ){    
 
@@ -413,6 +563,12 @@ function RegistrarProductos(){
 	parametros.append('perecedero_productos',$perecedero_productos.val());
 	parametros.append('inventariable_productos',$inventariable_productos.val());
     parametros.append('imagen_productos', $('#imagen_productos')[0].files[0]); 
+	
+	parametros.append('id_linea_productos',$id_linea_productos.val());
+	parametros.append('id_medida_productos',$id_medida_productos.val());
+	parametros.append('precio_venta_productos_xcaja',$precio_venta_productos_xcaja.val());
+	parametros.append('precio_marcado_productos_pvp',$precio_marcado_productos_pvp.val());
+    
 	
 	$.ajax({
 		beforeSend:fnBeforeAction('Estamos procesado la información'),
@@ -536,12 +692,21 @@ var editar = function(a){
 				$('#precio_venta_mayoreo_productos').val(value.precio_venta_mayoreo_productos);
 				$('#stock_min_venta_mayoreo_productos').val(value.stock_min_venta_mayoreo_productos);
 			    
+			    $('#precio_venta_productos_xcaja').val(value.precio_venta_productos_xcaja);
+				$('#precio_marcado_productos_pvp').val(value.precio_marcado_productos_pvp);
+				
+			    
 				CargarMarca(value.id_tipo_productos);
+				CargarTipoProductos(value.id_linea_productos);
+				CargarMedida(value.id_presentacion_productos);
 				
+				$('#id_linea_productos').val(value.id_linea_productos);
 				$('#id_tipo_productos').val(value.id_tipo_productos);
-				
 				$('#id_marca_productos').val(value.id_marca_productos);
 				$('#id_presentacion_productos').val(value.id_presentacion_productos);
+				$('#id_medida_productos').val(value.id_medida_productos);
+				
+				
 				$('#id_estado').val(value.id_estado);
 				$('#id_iva').val(value.id_iva);
 				
@@ -583,6 +748,13 @@ var editar = function(a){
 				$('#stock_productos').val("0.00");
 				$('#precio_compra_productos').val("0.00");
 				$('#precio_venta_productos').val("0.00");
+				
+				$('#precio_venta_productos_xcaja').val("0.00");
+				$('#precio_marcado_productos_pvp').val("0.00");
+				
+			    $('#id_linea_productos').val("0");
+				$('#id_medida_productos').val("0");
+				
 				$('#precio_venta_mayoreo_productos').val("0.00");
 				$('#stock_min_venta_mayoreo_productos').val("0.00");
 				$('#id_tipo_productos').val("0");
@@ -649,6 +821,13 @@ var eliminar = function(a){
 							$('#stock_productos').val("0.00");
 							$('#precio_compra_productos').val("0.00");
 							$('#precio_venta_productos').val("0.00");
+							
+							$('#precio_venta_productos_xcaja').val("0.00");
+							$('#precio_marcado_productos_pvp').val("0.00");
+							
+						    $('#id_linea_productos').val("0");
+							$('#id_medida_productos').val("0");
+							
 							$('#precio_venta_mayoreo_productos').val("0.00");
 							$('#stock_min_venta_mayoreo_productos').val("0.00");
 							$('#id_tipo_productos').val("0");
@@ -692,6 +871,13 @@ function cleanInputs(){
 				$('#perecedero_productos').val("FALSE");
 				$('#inventariable_productos').val("TRUE");
 				$("#imagen_productos").fileinput('clear');
+				
+				
+				$('#precio_venta_productos_xcaja').val("0.00");
+				$('#precio_marcado_productos_pvp').val("0.00");
+				
+			    $('#id_linea_productos').val("0");
+				$('#id_medida_productos').val("0");
 				
 }
 
@@ -763,11 +949,14 @@ var Load_Productos	= function(){
     		{ data: 'nombre_productos'},
     		{ data: 'nombre_marca_productos' },
     		{ data: 'nombre_presentacion_productos'},
+    		{ data: 'nombre_medida_productos'},
     		{ data: 'stock_min_venta_mayoreo_productos' },
     		{ data: 'stock_productos' },
-    		{ data: 'precio_compra_productos'},
+    		{ data: 'precio_marcado_productos_pvp'},
+			{ data: 'precio_compra_productos'},
 			{ data: 'precio_venta_productos'},
     		{ data: 'precio_venta_mayoreo_productos' },
+    		{ data: 'precio_venta_productos_xcaja' },
 			{ data: 'nombre_estado' },
     		{ data: 'opciones', orderable: false }
     		    		
@@ -844,7 +1033,19 @@ $(document).ready( function (){
 				$('#precio_venta_productos').val(respuesta.precio_venta_productos);
 				$('#precio_venta_mayoreo_productos').val(respuesta.precio_venta_mayoreo_productos);
 				$('#stock_min_venta_mayoreo_productos').val(respuesta.stock_min_venta_mayoreo_productos);
+				
+				
+				$('#precio_venta_productos_xcaja').val(respuesta.precio_venta_productos_xcaja);
+				$('#precio_marcado_productos_pvp').val(respuesta.precio_marcado_productos_pvp);
+				
+			    
 				CargarMarca(respuesta.id_tipo_productos);
+				CargarTipoProductos(respuesta.id_linea_productos);
+				CargarMedida(respuesta.id_presentacion_productos);
+				
+				$('#id_linea_productos').val(respuesta.id_linea_productos);
+				$('#id_medida_productos').val(respuesta.id_medida_productos);
+				
 				$('#id_tipo_productos').val(respuesta.id_tipo_productos);
 				$('#id_marca_productos').val(respuesta.id_marca_productos);
 				$('#id_presentacion_productos').val(respuesta.id_presentacion_productos);
@@ -877,6 +1078,12 @@ $(document).ready( function (){
 			    $("#imagen_productos").fileinput('clear');
 				
 				$('#stock_productos').attr('disabled', false);
+				
+				$('#precio_venta_productos_xcaja').val("0.00");
+				$('#precio_marcado_productos_pvp').val("0.00");
+				
+			    $('#id_linea_productos').val("0");
+				$('#id_medida_productos').val("0");
 				
 			  });
 			 

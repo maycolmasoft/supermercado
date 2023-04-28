@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Productos</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    
+     <link rel="icon" type="image/png" href="view/bootstrap/otros/login/images/icons/favicon.ico"/>
  
    <?php include("view/modulos/links_css.php"); ?>
      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">	  
@@ -100,17 +100,19 @@
 								
 								<div class="col-xs-12 col-md-2 col-lg-2 ">
                             	<div class="form-group">
+                                	 <label for="precio_marcado_productos_pvp" class="control-label">Precio Marcado PVP:</label>
+                                	 <input type="text" class="form-control cantidades" id="precio_marcado_productos_pvp" name="precio_marcado_productos_pvp" value='0.00' data-inputmask="'alias': 'numeric', 'autoGroup': true, 'digits': 2, 'digitsOptional': false">
+								</div>
+                                </div> 
+								
+								<div class="col-xs-12 col-md-2 col-lg-2 ">
+                            	<div class="form-group">
                                 	 <label for="precio_compra_productos" class="control-label">Precio Compra:</label>
                                 	 <input type="text" class="form-control cantidades" id="precio_compra_productos" name="precio_compra_productos" value='0.00' data-inputmask="'alias': 'numeric', 'autoGroup': true, 'digits': 2, 'digitsOptional': false">
 								</div>
                                 </div>
 								
-								<div class="col-xs-12 col-md-2 col-lg-2 ">
-                            	<div class="form-group">
-                                	 <label for="precio_venta_productos" class="control-label">Precio Venta:</label>
-                                	 <input type="text" class="form-control cantidades" id="precio_venta_productos" name="precio_venta_productos" value='0.00' data-inputmask="'alias': 'numeric', 'autoGroup': true, 'digits': 2, 'digitsOptional': false">
-								</div>
-                                </div>
+								
 								
                                    
                                     
@@ -118,6 +120,13 @@
                     	      
                     			
            <div class="row">
+                    		  
+                    		    <div class="col-xs-12 col-md-2 col-lg-2 ">
+                            	<div class="form-group">
+                                	 <label for="precio_venta_productos" class="control-label">Precio Venta:</label>
+                                	 <input type="text" class="form-control cantidades" id="precio_venta_productos" name="precio_venta_productos" value='0.00' data-inputmask="'alias': 'numeric', 'autoGroup': true, 'digits': 2, 'digitsOptional': false">
+								</div>
+                                </div>
                     		  
                             	<div class="col-xs-12 col-md-2 col-lg-2 ">
                             	<div class="form-group">
@@ -133,6 +142,25 @@
 								</div>
                                 </div> 
                               
+                                <div class="col-xs-12 col-md-2 col-lg-2 ">
+                            	<div class="form-group">
+                                	 <label for="precio_venta_productos_xcaja" class="control-label">Precio Venta x Caja:</label>
+                                	 <input type="text" class="form-control cantidades" id="precio_venta_productos_xcaja" name="precio_venta_productos_xcaja" value='0.00' data-inputmask="'alias': 'numeric', 'autoGroup': true, 'digits': 2, 'digitsOptional': false">
+								</div>
+                                </div> 
+                                
+                              
+                                <div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                          <label for="id_linea_productos" class="control-label">Linea:</label>
+                                                          <select name="id_linea_productos" id="id_linea_productos"  class="form-control" >
+															<option value="0" selected="selected">--Seleccione--</option>
+                        								  </select> 
+                                                          
+                                </div>
+                    		    </div>
+                              
+             					
              					
                                 <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
@@ -143,10 +171,17 @@
                                                           
                                 </div>
                     		    </div>
-                    		       
-								<div class="col-lg-2 col-xs-12 col-md-2">
+                    		      
+								    
+              </div>
+                    	           	
+                
+			           			
+           <div class="row">
+                    		  
+                    		    <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
-                                                          <label for="id_marca_productos" class="control-label">Marca:</label>
+                                                          <label for="id_marca_productos" class="control-label">Subcategoria:</label>
                                                           <select name="id_marca_productos" id="id_marca_productos"  class="form-control" >
 															<option value="0" selected="selected">--Seleccione--</option>
                         								  </select> 
@@ -163,6 +198,18 @@
                                                           
                                 </div>
                     		    </div>  
+                    		    
+                    		    
+                            	<div class="col-lg-2 col-xs-12 col-md-2">
+                    		    <div class="form-group">
+                                                          <label for="id_medida_productos" class="control-label">Medida:</label>
+                                                          <select name="id_medida_productos" id="id_medida_productos"  class="form-control" >
+															<option value="0" selected="selected">--Seleccione--</option>
+                        								  </select> 
+                                                          
+                                </div>
+                    		    </div>  
+								   
 								   
 								<div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
@@ -172,15 +219,7 @@
                         								  </select> 
                                                           
                                 </div>
-                    		    </div>     
-								    
-              </div>
-                    	           	
-                
-			           			
-           <div class="row">
-                    		  
-                            	
+                    		    </div>       
 								   
 								<div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
@@ -203,7 +242,11 @@
                                 </div>
                     		    </div> 
 								
-								<div class="col-lg-2 col-xs-12 col-md-2">
+                    			            
+              </div>	
+            
+             <div class="row">
+                                <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                           <label for="inventariable_productos" class="control-label">Inventariable:</label>
                                                           <select name="inventariable_productos" id="inventariable_productos"  class="form-control" >
@@ -221,14 +264,9 @@
                                                           <div id="errorImagen"></div>
                                 </div>
                         		</div>
-								
-								
-								
-								
-                    			            
-              </div>	
+                        		
+			 </div>	
             
-			
 			<div class="row">
            
 	                          
@@ -245,6 +283,7 @@
         	
         	
         
+      </div>
       </div>
      </section>
 
@@ -279,11 +318,14 @@
                     				<th>Nombre</th>
                     				<th>Marca</th>
                     				<th>Presentación</th>
+                    				<th>Medida</th>
                     				<th>S. Min</th>
 									<th>Stock</th>
+									<th>P. PVP</th>
                     				<th>P. Compra</th>
                     				<th>P. Venta</th>
 									<th>P. Venta Mayoreo</th>
+									<th>P. Venta x Caja</th>
 									<th>Estado</th>
                     				<th>Opciones</th>
 									
@@ -363,7 +405,7 @@
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
     <script src="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/js/fileinput.min.js"></script> 
 	<script src="view/bootstrap/otros/inputmask_bundle/jquery.inputmask.bundle.js"></script>
-	<script src="view/Almacen/js/Productos.js?0.06"></script>  
+	<script src="view/Almacen/js/Productos.js?0.08"></script>  
 	  
       
    	
