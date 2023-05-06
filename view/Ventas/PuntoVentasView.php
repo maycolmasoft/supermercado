@@ -137,7 +137,14 @@
                 				
                 			</tbody>                  			
                 			<tfoot>
-                				
+                      <tr class="info">
+                					<th>TOTAL:</th>
+                    				<th></th>
+                    				<th></th>
+                            <th></th>
+                    				<th><input type="text" class="form-control" value="0" id="txt-total-punto-venta" /></th>
+                            <th></th>
+                    			</tr>
                 			</tfoot>
                 		</table>
             		</div>
@@ -301,7 +308,7 @@
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
     <script src="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/js/fileinput.min.js"></script> 
 	<script src="view/bootstrap/otros/inputmask_bundle/jquery.inputmask.bundle.js"></script>
-	<script src="view/Ventas/js/PuntoVentas.js?0.09"></script>  
+	<script src="view/Ventas/js/PuntoVentas.js?0.12"></script>  
 	  
       
    	

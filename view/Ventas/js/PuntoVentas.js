@@ -1,30 +1,26 @@
 
      
 $(document).ready( function (){
-   init_controles();
-   CargarTipoProductos();
-   CargarPresentacion();
-   CargarEstado();
-   CargarIva();
-   Load_Productos();
+   
+   //Load_Productos();
    inicia_tabla_ventas();
    $(".cantidades").inputmask();
 
    $("#tblventas").on("click", ".mdbtnRemoveFila", function (event) {
 		
-	let id_distribucion	= $(this).closest("tr").attr('id').split('_')[1];
-	let fila	= $(this).closest("tr");
-	
-	if( !isNaN( id_distribucion ) &&  id_distribucion > 0 ){		
+		let id_distribucion	= $(this).closest("tr").attr('id').split('_')[1];
+		let fila	= $(this).closest("tr");
 		
-		fila.remove();
+		if( !isNaN( id_distribucion ) &&  id_distribucion > 0 ){		
+			
+			fila.remove();
+			
+		}else{
+			fila.remove();  
+		}
 		
-	}else{
-		fila.remove();  
-	}
-	
-	
-});
+		
+	});
 
 });
 
@@ -74,190 +70,6 @@ and aa.identificacion_clientes = '1750402859'*/
 		console.log( xhr.responseText );
 	})
 });
-
-
-
-
-function CargarTipoProductos(){
-		
-	let $ddlPeriodo = $("#id_tipo_productos");
-	
-	$.ajax({
-		  beforeSend:function(){},
-		  url:"index.php?controller=Productos&action=CargarTipoProductos",
-		  type:"POST",
-		  dataType:"json",
-		  data:null
-	}).done(function(datos){           
-		
-	  $ddlPeriodo.empty();
-	  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-		  $.each(datos.data, function(index, value) {
-			$ddlPeriodo.append("<option value= " +value.id_tipo_productos +" >" + value.nombre_tipo_productos  + "</option>"); 
-		  });
-		  
-	}).fail(function(xhr,status,error){
-		  var err = xhr.responseText
-		  console.log(err)
-		  $ddlPeriodo.empty();
-		  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-	})
-   
-}
-
-
-
-
-function CargarMarca(id_tipo_productos){
-      
-	  let $ddlPeriodoEleccion = $("#id_marca_productos");
-      
-      $.ajax({
-            beforeSend:function(){},
-            url:"index.php?controller=Productos&action=CargarMarca",
-            type:"POST",
-            dataType:"json",
-			async: false,
-            data:{id_tipo_productos:id_tipo_productos}
-      }).done(function(datos){           
-            
-    	  $ddlPeriodoEleccion.empty();
-    	  $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
-            
-            $.each(datos.data, function(index, value) {
-            	$ddlPeriodoEleccion.append("<option value= " +value.id_marca_productos +" >" + value.nombre_marca_productos  + "</option>");     
-            });
-            
-      }).fail(function(xhr,status,error){
-            var err = xhr.responseText
-            console.log(err)
-            $ddlPeriodoEleccion.empty();
-            $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
-            
-      })
-      
-}
-
-
-function CargarPresentacion(){
-		
-	let $ddlPeriodo = $("#id_presentacion_productos");
-	
-	$.ajax({
-		  beforeSend:function(){},
-		  url:"index.php?controller=Productos&action=CargarPresentacion",
-		  type:"POST",
-		  dataType:"json",
-		  data:null
-	}).done(function(datos){           
-		
-	  $ddlPeriodo.empty();
-	  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-		  $.each(datos.data, function(index, value) {
-			$ddlPeriodo.append("<option value= " +value.id_presentacion_productos +" >" + value.nombre_presentacion_productos  + "</option>"); 
-		  });
-		  
-	}).fail(function(xhr,status,error){
-		  var err = xhr.responseText
-		  console.log(err)
-		  $ddlPeriodo.empty();
-		  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-	})
-   
-}
-
-function CargarEstado(){
-		
-	let $ddlPeriodo = $("#id_estado");
-	
-	$.ajax({
-		  beforeSend:function(){},
-		  url:"index.php?controller=Productos&action=CargarEstado",
-		  type:"POST",
-		  dataType:"json",
-		  data:null
-	}).done(function(datos){           
-		
-	  $ddlPeriodo.empty();
-	  //$ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-		  $.each(datos.data, function(index, value) {
-			$ddlPeriodo.append("<option value= " +value.id_estado +" >" + value.nombre_estado  + "</option>"); 
-		  });
-		  
-	}).fail(function(xhr,status,error){
-		  var err = xhr.responseText
-		  console.log(err)
-		  $ddlPeriodo.empty();
-		  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-	})
-   
-}
-
-
-function CargarIva(){
-		
-	let $ddlPeriodo = $("#id_iva");
-	
-	$.ajax({
-		  beforeSend:function(){},
-		  url:"index.php?controller=Productos&action=CargarIva",
-		  type:"POST",
-		  dataType:"json",
-		  data:null
-	}).done(function(datos){           
-		
-	  $ddlPeriodo.empty();
-	  //$ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-		  $.each(datos.data, function(index, value) {
-			$ddlPeriodo.append("<option value= " +value.id_iva +" >" + value.nombre_iva  + "</option>"); 
-		  });
-		  
-	}).fail(function(xhr,status,error){
-		  var err = xhr.responseText
-		  console.log(err)
-		  $ddlPeriodo.empty();
-		  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
-		  
-	})
-   
-}
-
-
-
-$("#id_tipo_productos").change(function() {
-      
-	 var id_tipo_productos = $(this).val();
-	  let $ddlPeriodoEleccion = $("#id_marca_productos");
-	  $ddlPeriodoEleccion.empty();
-	  $ddlPeriodoEleccion.append("<option value='0' >--Seleccione--</option>");
-	  CargarMarca(id_tipo_productos);
-
- });
-
-
-function init_controles(){
-	try {
-		
-		 $("#imagen_productos").fileinput({			
-		 	showPreview: false,
-	        showUpload: false,
-	        elErrorContainer: '#errorImagen',
-	        allowedFileExtensions: ["png","jpg","jpeg"],
-	        language: 'esp' 
-		 });
-		
-	} catch (e) {
-		// TODO: handle exception
-		console.log("ERROR AL IMPLEMENTAR PLUGIN DE FILEUPLOAD");
-	}
-}
 
 
 function fnBeforeAction(mensaje){
@@ -564,8 +376,6 @@ function RegistrarProductos(){
 }
 
 
-
-
 var editar = function(a){
 	
 	
@@ -768,10 +578,6 @@ viewTabla.tabla  = null;
 viewTabla.nombre = 'tbllistado';
 viewTabla.contenedor = $("#div_listado");
 
-
-
-
-
 var idioma_espanol = {
 	    "sProcessing":     "Procesando...",
         "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -876,80 +682,6 @@ var Load_Productos	= function(){
 		
 }
 
-        
-        
-        
-        
-          
-
-$(document).ready( function (){
-
-	if($("#id_productos").val() > 0){
-		
-	}else{
-
-		$( "#codigo_productos" ).autocomplete({
-			source: "index.php?controller=Productos&action=AutocompleteCodigo",
-			minLength: 4
-		});
-
-		$("#codigo_productos").focusout(function(){
-			$.ajax({
-				url:'index.php?controller=Productos&action=AutocompleteDevuelveDatos',
-				type:'POST',
-				dataType:'json',
-				data:{codigo_productos:$('#codigo_productos').val()}
-			}).done(function(respuesta){
-
-				$('#id_productos').val(respuesta.id_productos);
-				$('#nombre_productos').val(respuesta.nombre_productos);
-				$('#codigo_productos').val(respuesta.codigo_productos);
-				$('#stock_productos').val(respuesta.stock_productos);
-				$('#precio_compra_productos').val(respuesta.precio_compra_productos);
-				$('#precio_venta_productos').val(respuesta.precio_venta_productos);
-				$('#precio_venta_mayoreo_productos').val(respuesta.precio_venta_mayoreo_productos);
-				$('#stock_min_venta_mayoreo_productos').val(respuesta.stock_min_venta_mayoreo_productos);
-				CargarMarca(respuesta.id_tipo_productos);
-				$('#id_tipo_productos').val(respuesta.id_tipo_productos);
-				$('#id_marca_productos').val(respuesta.id_marca_productos);
-				$('#id_presentacion_productos').val(respuesta.id_presentacion_productos);
-				$('#id_estado').val(respuesta.id_estado);
-				$('#id_iva').val(respuesta.id_iva);
-				$('#perecedero_productos').val(respuesta.perecedero_productos);
-				$('#inventariable_productos').val(respuesta.inventariable_productos);
-				
-				
-				$('#stock_productos').attr('disabled', true);
-				
-				
-			
-			}).fail(function(respuesta) {
-
-                $('#id_productos').val("0");
-				$('#nombre_productos').val("");
-				$('#stock_productos').val("0.00");
-				$('#precio_compra_productos').val("0.00");
-				$('#precio_venta_productos').val("0.00");
-				$('#precio_venta_mayoreo_productos').val("0.00");
-				$('#stock_min_venta_mayoreo_productos').val("0.00");
-				$('#id_tipo_productos').val("0");
-				$('#id_marca_productos').val("0");
-				$('#id_presentacion_productos').val("0");
-				$('#id_estado').val("1");
-				$('#id_iva').val("1");
-				$('#perecedero_productos').val("FALSE");
-				$('#inventariable_productos').val("TRUE");
-			    $("#imagen_productos").fileinput('clear');
-				
-				$('#stock_productos').attr('disabled', false);
-				
-			  });
-			 
-			
-		});  
-	}
-});		
-
 
 $("#codigo_productos").on("focus",function(e) {
 	
@@ -999,15 +731,18 @@ $("#codigo_productos").on("focus",function(e) {
 				cantidadtabla++;
 
 				if( nuevo == 1 ){
-					let fila	= devuelveHtmlFila( ui.item.nombre, cantidadtabla, 15.5, ui.item.id, 0.87, 16.37);
+					let fila	= devuelveHtmlFila( ui.item.nombre, cantidadtabla, ui.item.precio, ui.item.id, ui.item.iva, ui.item.total);
 					agrega_fila_tabla_ventas( fila, 1); 
 				}else{
 					$.each( $("#tblventas").find('tbody tr'), function(i,v){
 						let element = $(this);
 						let fila = element.find("input:hidden[name='mod_venta_id_productos']");
-						if( fila.val() == ui.item.id ){
+						if( fila.val() == ui.item.id ){							
 							if(element.find("input:text[name='mod_venta_cantidad']").length ){
-								element.find("input:text[name='mod_venta_cantidad']").val( cantidadtabla );
+								let total = ui.item.total * cantidadtabla;
+								console.log( 'total --> ' + total + ' * ' + cantidadtabla);
+								element.find("input:text[name='mod_venta_cantidad']").val( cantidadtabla ); 
+								element.find("input:text[name='mod_venta_ptotal']").val( total );
 							}
 						}
 					});
