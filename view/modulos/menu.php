@@ -97,6 +97,7 @@ $controladores=$_SESSION['controladores'];
             </span>
           </a>
           <ul class="treeview-menu">
+                  <li style="<?php echo getcontrolador("Caja",$controladores) ?>"><a href="index.php?controller=Caja&action=index"><i class="fa fa-circle-o"></i> Administrar Caja</a></li>
                   <li style="<?php echo getcontrolador("PuntoVentas",$controladores) ?>"><a href="index.php?controller=PuntoVentas&action=index"><i class="fa fa-circle-o"></i> Punto de Venta</a></li>
              
       	 	</ul>

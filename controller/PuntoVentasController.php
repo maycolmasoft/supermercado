@@ -701,6 +701,55 @@ class PuntoVentasController extends ControladorBase{
 
 	}
 	
+	public function autompleteProductos(){
+	    
+	    $db = new ModeloModel();
+	    
+	    if(isset($_GET['term'])){
+	        
+	        $codigo_productos = $_GET['term'];
+	        	        
+	        $columnas = "aa.id_productos
+			, aa.nombre_productos
+			, aa.codigo_productos
+			, ( aa.precio_venta_productos - ( aa.precio_venta_productos * bb.porcentaje_iva ) ) precio_unitario_producto
+			, ( aa.precio_venta_productos * bb.porcentaje_iva ) iva_producto
+			, aa.precio_venta_productos";
+	        $tablas = " public.productos aa
+			inner join public.iva bb on bb.id_iva = aa.id_iva";
+	        $where = "aa.codigo_productos LIKE '$codigo_productos%' ";
+	        $id = "aa.codigo_productos ";
+	        $limit = "LIMIT 10";
+			
+	        $rsProductos = $db->getCondicionesPag($columnas,$tablas,$where,$id,$limit);
+	        
+	        $respuesta = array();
+	        
+	        if(!empty($rsProductos) ){
+	            
+	            foreach ($rsProductos as $res){
+	                
+	                $clss_producto = new stdClass;
+	                $clss_producto->id = $res->id_productos;
+	                $clss_producto->value = $res->codigo_productos;
+	                $clss_producto->label = $res->codigo_productos.' | '.$res->nombre_productos;
+	                $clss_producto->nombre = $res->nombre_productos;
+					$clss_producto->precio = $res->precio_unitario_producto;
+					$clss_producto->iva = $res->iva_producto;
+					$clss_producto->total = $res->precio_venta_productos;
+	                
+	                $respuesta[] = $clss_producto;
+	            }
+	            
+	            echo json_encode($respuesta);
+	            
+	        }else{
+	            
+	            echo '[{"id":"","value":"Cuenta No Encontrada"}]';
+	        }
+	        
+	    }
+	}
 	
 }
 ?>
