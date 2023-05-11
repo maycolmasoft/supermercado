@@ -20,7 +20,7 @@ class TipoProductosController extends ControladorBase{
 	            ));
 	        }else{
 	            $this->view("Error",array(
-	                "resultado"=>"No tiene Permisos"
+	                "resultado"=>"No tiene permisos para poder acceder a este formulario"
 	            ));
 	            exit();
 	        }	        
