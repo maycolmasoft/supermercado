@@ -1,0 +1,17 @@
+ @page {
+         margin: 1mm;
+		 }
+body {	
+	margin:0px;
+	padding:0px;
+	
+}
+img {
+	height:100px;
+	width:100px;
+}
+
+td {
+	text-align:center;
+	font-size:11px;
+}

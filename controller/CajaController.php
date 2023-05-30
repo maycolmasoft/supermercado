@@ -195,11 +195,8 @@ class CajaController extends ControladorBase{
 	            $total=  $total+$res->valor_transaccion;
 	            $totales = array();
 	            $totales['total']      = '<span class="badge bg-yellow" style="font-size: 16px;">'.'<b>'.'$ '.number_format($total, 2, ".", ",").'</b>'.'</span>';
-<<<<<<< Updated upstream
-	            
-=======
 	            $totales['total_imprimir']      = number_format($total, 2, ".", ",");
->>>>>>> Stashed changes
+
 	            
 	            if($res->valor_transaccion>=0){$valores = '<span class="badge bg-green" style="font-size: 12px;">'.$res->valor_transaccion.'</span>';}
 	            if($res->valor_transaccion<0){$valores = '<span class="badge bg-red" style="font-size: 12px;">'.$res->valor_transaccion.'</span>';}

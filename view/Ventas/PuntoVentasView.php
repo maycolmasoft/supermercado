@@ -190,7 +190,8 @@
 				
 			</div>
 			 
-
+  					<a class="btn btn-info" onclick="generar_factura(this)" title="Factura" href="#" role="button" target="_blank"><i class="glyphicon glyphicon-list-alt"></i> Imprimir Factura</a>
+	
 			 
             <div class="row" style="margin-top:80px;">
                                <div class="col-lg-12 col-xs-12 col-md-12">
@@ -204,6 +205,8 @@
               
         
       </div>
+      
+                   
      </section>
 
 
@@ -321,7 +324,7 @@
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
     <script src="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/js/fileinput.min.js"></script> 
 	<script src="view/bootstrap/otros/inputmask_bundle/jquery.inputmask.bundle.js"></script>
-	<script src="view/Ventas/js/PuntoVentas.js?0.21"></script>  
+	<script src="view/Ventas/js/PuntoVentas.js?0.12"></script>  
 	  
       
    	
