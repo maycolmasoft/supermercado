@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Proveedores</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <link rel="icon" type="image/png" href="view/bootstrap/otros/login/images/icons/favicon.ico"/>
     
  
    <?php include("view/modulos/links_css.php"); ?>
      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">	  
      <link rel="stylesheet" href="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/css/fileinput.min.css">
+     
     </head>
     
     
@@ -18,6 +20,7 @@
     
      
      <?php
+        
         $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         $fecha=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
@@ -134,7 +137,9 @@
                                 </div>
                                 </div>
                                
-							     <div class="col-lg-2 col-xs-12 col-md-2">
+							 
+             					
+                                <div class="col-lg-2 col-xs-12 col-md-2">
                     		    <div class="form-group">
                                                           <label for="id_estado" class="control-label">Estado:</label>
                                                           <select name="id_estado" id="id_estado"  class="form-control" >
@@ -162,7 +167,7 @@
 	                          
                     		    <div class="col-xs-12 col-md-12 col-lg-12" style="text-align: center; margin-top:20px">
                     		    <div class="form-group">
-                                                      <button type="button" name="Guardar" class="btn btn-success" onclick="Registrar()"><i class="glyphicon glyphicon-floppy-saved"> Guardar</i></button>
+                                                      <button type="button" name="Guardar" class="btn btn-success" onclick="RegistrarClientes()"><i class="glyphicon glyphicon-floppy-saved"> Guardar</i></button>
                                 					  <a class="btn btn-primary" href="<?php  echo $helper->url("Proveedores","index"); ?>"><i class="glyphicon glyphicon-floppy-remove"> Cancelar</i></a>
                                 
                                 </div>
@@ -230,7 +235,47 @@
       </section>
      
 	 
-
+	 
+    <!-- MODAL PARA CONTROL DE ERRORES--> 
+	<div class="modal fade" id="mod_archivo_errores" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog   modal-lg " role="document" >
+        <div class="modal-content">
+          <div class="modal-header bg-red color-palette">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" align="center"></h4>
+          </div>
+          <div class="modal-body" >
+          	<div class="box-body no-padding">
+          		<table id="tbl_archivo_error" class="table table-striped table-bordered table-sm " cellspacing="0"  width="100%">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Linea</th>
+                      <th>Error</th>
+                      <th>Cantidad</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>  
+          	</div>
+          	
+          
+          </div>
+          
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+	</div>
+	 
 	 
 	 
     
@@ -247,7 +292,7 @@
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
     <script src="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/js/fileinput.min.js"></script> 
 	<script src="view/bootstrap/otros/inputmask_bundle/jquery.inputmask.bundle.js"></script>
-	<script src="view/Administracion/js/Proveedores.js?0.03"></script>  
+	<script src="view/Administracion/js/Proveedores.js?0.01"></script>  
 	  
       
    	

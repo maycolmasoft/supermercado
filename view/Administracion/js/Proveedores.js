@@ -1,13 +1,20 @@
+
+     
 $(document).ready( function (){
    init_controles();
    CargarTipoIdentificacion();
    CargarEstado();
-   Mostrar();
+   Load_Clientes();
    $(".cantidades").inputmask();
 });
 
+
+
+
 function CargarTipoIdentificacion(){
-	let $ddl = $("#id_tipo_identificacion");
+		
+	let $ddlPeriodo = $("#id_tipo_identificacion");
+	
 	$.ajax({
 		  beforeSend:function(){},
 		  url:"index.php?controller=Proveedores&action=CargarTipoIdentificacion",
@@ -16,11 +23,11 @@ function CargarTipoIdentificacion(){
 		  data:null
 	}).done(function(datos){           
 		
-	  $ddl.empty();
-	  $ddl.append("<option value='0' >--Seleccione--</option>");
+	  $ddlPeriodo.empty();
+	  $ddlPeriodo.append("<option value='0' >--Seleccione--</option>");
 		  
 		  $.each(datos.data, function(index, value) {
-			$ddl.append("<option value= " +value.id_tipo_identificacion +" >" + value.nombre_tipo_identificacion  + "</option>"); 
+			$ddlPeriodo.append("<option value= " +value.id_tipo_identificacion +" >" + value.nombre_tipo_identificacion  + "</option>"); 
 		  });
 		  
 	}).fail(function(xhr,status,error){
@@ -67,7 +74,7 @@ function CargarEstado(){
 function init_controles(){
 	try {
 		
-		 $("#fotografia_provedores").fileinput({			
+		 $("#fotografia_proveedores").fileinput({			
 		 	showPreview: false,
 	        showUpload: false,
 	        elErrorContainer: '#errorImagen',
@@ -92,11 +99,11 @@ function fnBeforeAction(mensaje){
 }
 
 
-function Registrar(){
+function RegistrarClientes(){
 	
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	
-	let $id_proveedores = $("#id_proveedores");
+	let $id_proveedores  = $("#id_proveedores");
 	let $id_tipo_identificacion  = $("#id_tipo_identificacion");
 	let $identificacion_proveedores = $("#identificacion_proveedores");
 	let $razon_social_proveedores   = $("#razon_social_proveedores");
@@ -480,9 +487,6 @@ function Registrar(){
 
 	}
 	
-
-	
-		
 	if ($id_estado.val() == 0 ){    
 
 		$id_estado.notify("Seleccione",{ position:"buttom left", autoHideDelay: 2000});
@@ -493,7 +497,7 @@ function Registrar(){
 	}
 	
 	// para validar la foto obligatoria
-	/*var inarchivo = $("#fotografia_proveedores");
+	/*var inarchivo = $("#fotografia_clientes");
 	if( inarchivo[0].files.length == 0){
 		inarchivo.closest('div.file-input').notify("Seleccione un archivo",{ position:"buttom left", autoHideDelay: 2000});
 		return false;
@@ -516,7 +520,7 @@ function Registrar(){
 	
 	$.ajax({
 		beforeSend:fnBeforeAction('Estamos procesado la información'),
-		url:"index.php?controller=Proveedores&action=Registrar",
+		url:"index.php?controller=Proveedores&action=RegistrarClientes",
 		type:"POST",
 		dataType:"json",
 		data:parametros,		
@@ -572,7 +576,7 @@ function Registrar(){
 				 icon: "success"
 				});
 			
-			Mostrar();
+			Load_Clientes();
 			cleanInputs();			
 		}
 		//console.log(x);
@@ -601,7 +605,7 @@ function Registrar(){
 
 
 
-var Editar = function(a){
+var editar = function(a){
 	
 	
 	var element = $(a);
@@ -618,7 +622,7 @@ var Editar = function(a){
 		
 	$.ajax({
 		beforeSend:fnBeforeAction('Estamos procesado la información'),
-		url:"index.php?controller=Proveedores&action=Editar",
+		url:"index.php?controller=Proveedores&action=DataEditar",
 		type:"POST",
 		dataType:"json",
 		data:{id_proveedores:id_proveedores}
@@ -667,7 +671,7 @@ var Editar = function(a){
 }
 	
 
-var Eliminar = function(a){
+var eliminar = function(a){
 	
 	
 	var element = $(a);
@@ -678,7 +682,7 @@ var Eliminar = function(a){
 		return false;
 	}	
 	
-	swal({title:"NOTIFICACIÓN",text:"Esta seguro de eliminar el cliente",icon:"info",buttons: true,
+	swal({title:"NOTIFICACIÓN",text:"Esta seguro de eliminar el proveedor",icon:"info",buttons: true,
 		  closeOnClickOutside: false,
 		  closeOnEsc: false})
 	.then((isConfirm) => {
@@ -686,7 +690,7 @@ var Eliminar = function(a){
 		{
 				$.ajax({
 					beforeSend:fnBeforeAction('Estamos procesado la información'),
-					url:"index.php?controller=Proveedores&action=Eliminar",
+					url:"index.php?controller=Proveedores&action=DataEliminar",
 					type:"POST",
 					dataType:"json",
 					data:{id_proveedores:id_proveedores}
@@ -718,7 +722,7 @@ var Eliminar = function(a){
 							$("#fotografia_proveedores").fileinput('clear');
 					
 				}).always(function(){
-					Load_proveedores();
+					Load_Clientes();
 				})	
 		   
 		}
@@ -784,7 +788,7 @@ var idioma_espanol = {
 }
 
 
-var Mostrar	= function(){
+var Load_Clientes	= function(){
 	
 	var dataSend = { 'input_search': viewTabla.txt_busqueda.val()};
 	
@@ -794,7 +798,7 @@ var Mostrar	= function(){
 	    'serverMethod': 'post',
 	    'destroy' : true,
 	    'ajax': {
-	        'url':'index.php?controller=Proveedores&action=Mostrar',
+	        'url':'index.php?controller=Proveedores&action=dtMostrar_Clientes',
 	        'data': function ( d ) {
 	            return $.extend( {}, d, dataSend );
 	            },
@@ -834,8 +838,8 @@ var Mostrar	= function(){
         
         	 { extend: 'copy'},
              {extend: 'csv'},
-             {extend: 'excel', title: 'Lista Proveedores'},
-             {extend: 'pdf', title: 'Lista Proveedores'},
+             {extend: 'excel', title: 'Lista Clientes'},
+             {extend: 'pdf', title: 'Lista Clientes'},
 
              {extend: 'print',
               customize: function (win){
