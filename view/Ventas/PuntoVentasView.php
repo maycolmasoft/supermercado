@@ -11,17 +11,6 @@
    <?php include("view/modulos/links_css.php"); ?>
      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">	  
      <link rel="stylesheet" href="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/css/fileinput.min.css">
-
-     <style>
-        div.imgtr{
-          position:absolute;
-          opacity:0.75;
-          width:100%;
-          text-align: center;
-          padding: 1em 0;
-        }
-     </style>
-
     </head>
     
     
@@ -178,8 +167,6 @@
 
                             
             </div>
-
-            <button class="btn btn-sm btn-success" id="agregar-venta">AGREGAR</button>
          
           </div>
         </div>

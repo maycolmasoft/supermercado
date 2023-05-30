@@ -22,10 +22,6 @@ $(document).ready( function (){
 		
 	});
 
-	$("#tblventas").on("keyup", "input:text[name='mod_venta_cantidad']", function (event) {
-		cambiar_valor_parcial( $(this) )
-	});
-
 });
 
 $("#btn-buscar-cliente").on('click', function(){
@@ -721,14 +717,16 @@ $("#codigo_productos").on("focus",function(e) {
 				let cantidadtabla = 0;
 				let nuevo = 1; //1--si 0--no
 
-				let findelement	= $("#tblventas").find('tbody tr td input:hidden[name="mod_venta_id_productos"][value="'+ ui.item.id+'"]');
-
-				if( findelement.length > 0 ){
-					nuevo = 0;
-					let fila = findelement.closest("tr");
-					cantidadtabla = fila.find("input:text[name='mod_venta_cantidad']").length ? fila.find("input:text[name='mod_venta_cantidad']").val() : 0;
-
-				}
+				$.each( $("#tblventas").find('tbody tr'), function(i,v){
+					let element = $(this);
+					let fila = element.find("input:hidden[name='mod_venta_id_productos']");
+					if( fila.val() == ui.item.id ){
+						nuevo = 0;
+						cantidadtabla = element.find("input:text[name='mod_venta_cantidad']").length ? element.find("input:text[name='mod_venta_cantidad']").val() : 0;
+					}else{
+						nuevo = 1;
+					}
+				});
 
 				cantidadtabla++;
 
@@ -751,9 +749,6 @@ $("#codigo_productos").on("focus",function(e) {
 				}				 
     			    			    			
     			$("#hdn_productos").val( ui.item.id );
-
-				let total_venta = totalizar_venta();
-				cambiar_valor_total( total_venta );
     			     	     
      	    },
      	   appendTo: "",
@@ -810,7 +805,7 @@ var devuelveHtmlFila	= function(p_nombre = '', p_cantidad = 0,  p_precio_unitari
 	cols += '<input type="text" style="border: 0;" class="form-control input-sm" value="'+ p_iva +'" name="mod_venta_iva">';
     cols += '</td>';
     cols += '<td style="font-size: 12px;">';
-    cols += '<input type="text" class="form-control input-sm text-right " name="mod_venta_ptotal" value="'+ p_total +'">';
+    cols += '<input type="number" class="form-control input-sm text-right " name="mod_venta_ptotal" value="'+ p_total +'">';
     cols += '</td>';
     cols += '<td><input type="button" class="mdbtnRemoveFila form-control btn btn-sm btn-danger "  value="Delete"></td>';
     
