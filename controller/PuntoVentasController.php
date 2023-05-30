@@ -751,5 +751,58 @@ class PuntoVentasController extends ControladorBase{
 	    }
 	}
 	
+
+	public function actualizarCantidad(){
+
+		$db = new ModeloModel();
+	    
+		$respuesta	= [];
+
+		$cantidad	= $_POST['cantidad'];
+		$identificador	= $_POST['identificador'];
+					
+		$columnas = "aa.id_productos
+		, aa.nombre_productos
+		, aa.codigo_productos
+		, ( aa.precio_venta_productos - ( aa.precio_venta_productos * bb.porcentaje_iva ) ) precio_unitario_producto
+		, ( aa.precio_venta_productos * bb.porcentaje_iva ) iva_producto
+		, aa.precio_venta_productos";
+		$tablas = " public.productos aa
+		inner join public.iva bb on bb.id_iva = aa.id_iva";
+		$where = "aa.id_productos = '$identificador' ";
+		$id = "aa.codigo_productos ";
+		$limit = "LIMIT 1";
+		
+		$rsProductos = $db->getCondicionesPag($columnas,$tablas,$where,$id,$limit);
+				
+		if(!empty($rsProductos) ){
+
+			$data	= [];
+			
+			foreach ($rsProductos as $res){
+				
+				$clss_producto = new stdClass;
+				$clss_producto->id = $res->id_productos;
+				$clss_producto->nombre = $res->nombre_productos;
+				$clss_producto->precio = $res->precio_unitario_producto;
+				$clss_producto->iva = $res->iva_producto;
+				$clss_producto->total = ($res->precio_venta_productos) * $cantidad;
+				
+				$data[] = $clss_producto;
+			}
+			
+			$respuesta['estatus'] = "OK";
+			$respuesta['data'] = $data;
+			
+		}else{
+			
+			$respuesta['estatus'] = "ERROR";
+			$respuesta['data'] = [];
+		}
+
+		echo json_encode($respuesta);
+	      
+	}
+
 }
 ?>

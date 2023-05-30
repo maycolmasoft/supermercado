@@ -22,6 +22,10 @@ $(document).ready( function (){
 		
 	});
 
+	$("#tblventas").on("keyup", "input:text[name='mod_venta_cantidad']", function (event) {
+		cambiar_valor_parcial( $(this) )
+	});
+
 });
 
 $("#btn-buscar-cliente").on('click', function(){
@@ -717,16 +721,14 @@ $("#codigo_productos").on("focus",function(e) {
 				let cantidadtabla = 0;
 				let nuevo = 1; //1--si 0--no
 
-				$.each( $("#tblventas").find('tbody tr'), function(i,v){
-					let element = $(this);
-					let fila = element.find("input:hidden[name='mod_venta_id_productos']");
-					if( fila.val() == ui.item.id ){
-						nuevo = 0;
-						cantidadtabla = element.find("input:text[name='mod_venta_cantidad']").length ? element.find("input:text[name='mod_venta_cantidad']").val() : 0;
-					}else{
-						nuevo = 1;
-					}
-				});
+				let findelement	= $("#tblventas").find('tbody tr td input:hidden[name="mod_venta_id_productos"][value="'+ ui.item.id+'"]');
+
+				if( findelement.length > 0 ){
+					nuevo = 0;
+					let fila = findelement.closest("tr");
+					cantidadtabla = fila.find("input:text[name='mod_venta_cantidad']").length ? fila.find("input:text[name='mod_venta_cantidad']").val() : 0;
+
+				}
 
 				cantidadtabla++;
 
@@ -749,6 +751,9 @@ $("#codigo_productos").on("focus",function(e) {
 				}				 
     			    			    			
     			$("#hdn_productos").val( ui.item.id );
+
+				let total_venta = totalizar_venta();
+				cambiar_valor_total( total_venta );
     			     	     
      	    },
      	   appendTo: "",
@@ -805,7 +810,7 @@ var devuelveHtmlFila	= function(p_nombre = '', p_cantidad = 0,  p_precio_unitari
 	cols += '<input type="text" style="border: 0;" class="form-control input-sm" value="'+ p_iva +'" name="mod_venta_iva">';
     cols += '</td>';
     cols += '<td style="font-size: 12px;">';
-    cols += '<input type="number" class="form-control input-sm text-right " name="mod_venta_ptotal" value="'+ p_total +'">';
+    cols += '<input type="text" class="form-control input-sm text-right " name="mod_venta_ptotal" value="'+ p_total +'">';
     cols += '</td>';
     cols += '<td><input type="button" class="mdbtnRemoveFila form-control btn btn-sm btn-danger "  value="Delete"></td>';
     
@@ -813,5 +818,91 @@ var devuelveHtmlFila	= function(p_nombre = '', p_cantidad = 0,  p_precio_unitari
 }
 		
 
+var cambiar_valor_total	= function( pvalor ){
+
+	$("#total_factura").html( pvalor );
+	$("#txt-total-punto-venta").val( pvalor);
+
+}
+
+var totalizar_venta	= function(){
+	let suma = 0;
+	$.each( $("#tblventas tbody").find('tr'), function(i,v){ 
+		let fila = $(this);
+		let columna = fila.find('td:eq(4)');
+		let element = columna.find("input:text[name='mod_venta_ptotal']");		
+		if( element.length > 0 ){
+			suma += ( isNaN( element.val() ) ) ? 0 : parseFloat( element.val() );
+		}else{
+			suma	+= 0;
+		}
+	});
+
+	return suma;
+}
+
+var cambiar_valor_parcial = function( pelement ){
+
+	if (pelement.length == 0) return false;
+
+	let fila = pelement.closest('tr');
+	let fidentificador = fila.find("input:hidden[name='mod_venta_id_productos']").val();
+	let fcantidad = fila.find("input:text[name='mod_venta_cantidad']").val();
+
+	$.ajax({
+		url:"index.php?controller=PuntoVentas&action=actualizarCantidad",
+		dataType:"json",
+		type:"POST",
+		data:{ 'identificador': fidentificador,'cantidad': fcantidad},
+		beforeSend: function(){ loading_fila( pelement ) },
+		complete: function(){ console.log('completo'); unloading_fila( pelement ) }
+	}).done(function(x){
+		
+		if( x.estatus != undefined && x.estatus == "OK"){
+
+			let detalle = x.data[0];
+
+			fila.find("input:text[name='mod_venta_cantidad']").val( fcantidad ); 
+			fila.find("input:text[name='mod_venta_punitario']").val( detalle.precio );
+			fila.find("input:text[name='mod_venta_iva']").val( detalle.iva ); 
+			fila.find("input:text[name='mod_venta_ptotal']").val( detalle.total );
+
+			let total_venta = totalizar_venta();
+			cambiar_valor_total( total_venta );
+			
+		}else{
+			//poner en cero o dejar como esta
+		}
+		
+	}).fail(function(xhr,status,error){
+		var err = xhr.responseText
+		console.log(err)
+	})
+		
+}
+
+var loading_fila	= function( pelement ){
+
+	let fila = pelement.closest('tr');
+	fila.append( $('<div>').prop({className: 'imgtr'}).html( '<img src="view/images/ajax-loader.gif" alt="loading" />') );
+	let imagen = fila.find('div.imgtr').position({
+		of: fila,
+		my: 'left top',
+		at: 'left top',
+		offset: '50 50'
+	  });
+	  
+}
+
+var unloading_fila	= function( pelement ){
+
+	let fila = pelement.closest('tr');
+	fila.find('div.imgtr').remove();
+
+}
+
+$("#agregar-venta").on('click',function(){
+
+});
 
 		   
