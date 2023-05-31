@@ -70,7 +70,7 @@ class ProveedoresController extends ControladorBase{
 	    $usuarios= new UsuariosModel();
 	    
 	    
-	    $query1="select id_estado , nombre_estado  from estado where tabla_estado ='PROVEEDORES' order by id_estado asc";
+	    $query1="select id_estado , nombre_estado  from estado where tabla_estado ='USUARIOS' order by id_estado asc";
 	    $preguntas  = $usuarios->enviaquery($query1);
 	    
 	    if(!empty($preguntas)){
