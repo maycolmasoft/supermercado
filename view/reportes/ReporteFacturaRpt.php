@@ -11,7 +11,7 @@ if(!empty($datos_reporte))
 }
 
 ob_end_clean();
-$mpdf=new mPDF('utf-8', array(50,120));
+$mpdf=new mPDF('utf-8', array(50,100));
 $stylesheet = file_get_contents('view/reportes/template/ReporteFactura.css'); // la ruta a tu css
 $mpdf->WriteHTML($stylesheet,1);
 $mpdf->WriteHTML($template,2);

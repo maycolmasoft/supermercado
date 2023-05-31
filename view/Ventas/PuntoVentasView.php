@@ -311,7 +311,7 @@
     <script src="view/bootstrap/otros/notificaciones/notify.js"></script>
     <script src="view/bootstrap/plugins/bootstrap_fileinput_v5.0.8-4/js/fileinput.min.js"></script> 
 	<script src="view/bootstrap/otros/inputmask_bundle/jquery.inputmask.bundle.js"></script>
-	<script src="view/Ventas/js/PuntoVentas.js?0.12"></script>  
+	<script src="view/Ventas/js/PuntoVentas.js?0.14"></script>  
 	  
       
    	
