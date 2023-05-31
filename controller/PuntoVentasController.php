@@ -751,37 +751,5 @@ class PuntoVentasController extends ControladorBase{
 	    }
 	}
 	
-	
-	public function ReporteFactura(){
-	    session_start();
-	    $participes = new ClientesModel();
-	    $fechaactual = getdate();
-	    $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
-	    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	    $fechaactual=$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;
-	    setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
-	    
-	    $id_clientes =  (isset($_REQUEST['id_cliente'])&& $_REQUEST['id_cliente'] !=NULL)?$_REQUEST['id_cliente']:'';
-	    
-	    $datos_reporte = array();
-	    $columnas =  "a.razon_social_clientes,
-            	    a.identificacion_clientes,
-            	    a.direccion_clientes";
-	    $tablas ="clientes a";
-	    $where= "a.id_clientes = '$id_clientes'";
-	    $id="a.id_clientes";
-	    
-	    $rsdatos = $participes->getCondiciones($columnas, $tablas, $where, $id);
-	    
-	    
-	    
-	    $datos_reporte['FECHA_CONSECION']=$fechaactual;
-	    $datos_reporte['razon_social_clientes']=$rsdatos[0]->razon_social_clientes;
-	    
-	    
-	    $this->verReporte("ReporteFactura", array('datos_reporte'=>$datos_reporte ));
-	    
-	}
-	
 }
 ?>

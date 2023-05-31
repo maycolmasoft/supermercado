@@ -812,14 +812,6 @@ var devuelveHtmlFila	= function(p_nombre = '', p_cantidad = 0,  p_precio_unitari
     return cols;
 }
 		
-var generar_factura = function(obj){
-	
-	var elemento = $(obj);
-	var id_cliente	= $("#hdn_id_cliente").val();
-	var url 	 = "index.php?controller=PuntoVentas&action=ReporteFactura&id_cliente="+id_cliente;
-	
-	elemento.attr('href',url);
-	return true;
-}
+
 
 		   
